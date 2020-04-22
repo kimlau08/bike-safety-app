@@ -2,9 +2,11 @@ import React from 'react';
 
 function Home () {
     return (
-        <React.Fragment>
+        <div>
             <h1 style={{color:'green'}}>Home</h1>
-        </React.Fragment>
+
+            
+        </div>
     )
 }
 

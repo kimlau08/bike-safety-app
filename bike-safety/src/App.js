@@ -57,6 +57,7 @@ export default class App extends Component {
     this.sortReportTypes=this.sortReportTypes.bind(this);
 
     this.graphIncidentTypes=this.graphIncidentTypes.bind(this);
+    this.displayMostRecentThefts=this.displayMostRecentThefts.bind(this);
   }
 
  
@@ -112,7 +113,7 @@ export default class App extends Component {
     let incidentCnts = []; //bar lengths
     for (let i=0; i<reportArray.length; i++) {
       labels.push(reportArray[i][0])
-      incidentCnts.push(reportArray[i][0].length);
+      incidentCnts.push(reportArray[i][1].length);
     }
 
     return (
@@ -125,8 +126,43 @@ export default class App extends Component {
     )
   }
 
+  displayImgCard(imgCardInfo) {
+    return (
+      <div className="bikeImgCard">
+        <p>imgCardInfo.reportTitle</p>
+        <img src={imgCardInfo.bikeImg} />
+      </div>
+    )
+  }
+
   displayMostRecentThefts() {
-    
+
+    let theftReports=this.state.reportsByType["theft"]; 
+
+    //sort by update date
+    theftReports.sort(function(a, b) {
+      return b.updated_at - a.updated_at;
+    })
+
+    //find 3 reports with media
+    let theftImg=[];
+    for (let i=0; i<theftReports.length; i++) {
+      if (theftReports[i].media.image_url !== null) {
+
+        theftImg.push(  {bikeImg: theftReports[i].media.image_url},
+                        {reportTitle: theftReports[i].title });
+
+        if ( theftImg.length >= 3 ) {   //only need 3 reports
+          break;
+        }
+      }     
+    }
+
+    return (
+      <div className="bikeImgRow">
+          theftImg.map( displayImgCard );
+      </div>
+    )
   }
 
 
@@ -298,8 +334,8 @@ export default class App extends Component {
           <Redirect to='/Home' />  
         </Router>
 
-        {this.graphIncidentTypes()};
-
+        {this.graphIncidentTypes()}
+{/* {this.displayMostRecentThefts()} */}
       </div>
     );
   }
