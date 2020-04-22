@@ -15,6 +15,31 @@ textarea {
 }
 
 
+
+/******************************************************************
+*   Bar Chart styling
+******************************************************************/
+
+.chartBox {
+  
+  width: 100%;
+  height: auto;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+border: solid 1px green;
+  
+}
+  .graphChart {
+    width: 60%;
+    height: auto;
+
+border: solid 1px red;
+}
+
+
+
 /******************************************************************
 *   Menu and Logo line
 ******************************************************************/

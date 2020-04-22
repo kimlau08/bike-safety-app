@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {Bar} from 'react-chartjs-2';
 
+import BarChart from './components/BarChart';
 import Home from './components/Home';
 import HazardSort from './components/HazardSort';
 import TheftSort from './components/TheftSort';
@@ -32,6 +33,8 @@ export default class App extends Component {
       response: [],
       axiosDataLoaded: false,
 
+      reportsByType: [],
+
       currentLocation: "Austin, TX", //city or zip
 
       //default query parms
@@ -49,10 +52,15 @@ export default class App extends Component {
 
     this.createQueryURL=this.createQueryURL.bind(this);
     this.createMultipleURLs=this.createMultipleURLs.bind(this);
+
+    this.stackReportsByType=this.stackReportsByType.bind(this);
+    this.sortReportTypes=this.sortReportTypes.bind(this);
+
+    this.graphIncidentTypes=this.graphIncidentTypes.bind(this);
   }
 
  
-  accReportsByType () {
+  stackReportsByType () {
 
     let reports={}
 
@@ -75,10 +83,7 @@ export default class App extends Component {
       }
     }
 
-
-//reportArray : a 2D array. 1st dimension is graph label. 2nd is array of data points
-let reportArray = this.sortReportTypes(reports) ;
-
+    this.setState(  {reportsByType: reports}  )
 
   }
 
@@ -97,19 +102,32 @@ let reportArray = this.sortReportTypes(reports) ;
     return reportArray;  
   }
 
-  createIncidentCntBarGraph(reportArray) {
-    //reportArray : a 2D array. 1st dimension is graph label. 2nd is array of data points
+  graphIncidentTypes() {
 
+    //reportArray : a 2D array. 1st dimension is graph label. 2nd is array of data points
+    let reportArray = this.sortReportTypes(this.state.reportsByType);
+
+    //create lables and data points
     let labels = []; //bar labels
     let incidentCnts = []; //bar lengths
     for (let i=0; i<reportArray.length; i++) {
       labels.push(reportArray[i][0])
       incidentCnts.push(reportArray[i][0].length);
     }
+
+    return (
+      <div  className="chartBox">
+         <BarChart graphTitle="Incidents by Types" 
+                labels={JSON.stringify(labels)} 
+                dataPoints={JSON.stringify(incidentCnts)} />
+      </div>
+
+    )
   }
 
-
-
+  displayMostRecentThefts() {
+    
+  }
 
 
   createQueryURL( FilterObj ) {
@@ -175,7 +193,7 @@ let reportArray = this.sortReportTypes(reports) ;
 
       this.setState({response: response.data.incidents})
 
-      this.accReportsByType(response);
+      this.stackReportsByType(response);
 
     } catch (e) {
       console.error(e);
@@ -198,7 +216,7 @@ let reportArray = this.sortReportTypes(reports) ;
   
         this.setState({response: arr});   
 
-        this.accReportsByType(arr);
+        this.stackReportsByType(arr);
 
       })
       .catch(error=>{
@@ -208,7 +226,6 @@ let reportArray = this.sortReportTypes(reports) ;
   }
 
   
-
   customQuery( FilterObj ) {
 
     let urls=this.createMultipleURLs( FilterObj );
@@ -281,6 +298,7 @@ let reportArray = this.sortReportTypes(reports) ;
           <Redirect to='/Home' />  
         </Router>
 
+        {this.graphIncidentTypes()};
 
       </div>
     );

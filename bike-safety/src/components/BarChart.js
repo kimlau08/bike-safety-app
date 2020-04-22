@@ -1,26 +1,17 @@
 import React from 'react';
 import {Bar} from 'react-chartjs-2';
 
-const state = {
-    labels: ['January', 'February', 'March',
-             'April', 'May'],
-    datasets: [
-      {
-        label: 'Rainfall',
-        backgroundColor: 'rgba(75,192,192,1)',
-        borderColor: 'rgba(0,0,0,1)',
-        borderWidth: 2,
-        data: [65, 59, 80, 81, 56]
-      }
-    ]
-  }
+import '../App.css'
 
 
 export default function BarChart (props) {
 
     let graphTitle = props.graphTitle;
+    let labels = JSON.parse(props.labels);
+    let dataPoints = JSON.parse(props.dataPoints);
+
     let graphData = {
-        labels : props.labels,
+        labels : labels,
 
         datasets: [
             {
@@ -28,23 +19,22 @@ export default function BarChart (props) {
                 backgroundColor: 'rgba(75,192,192,1)',
                 borderColor: 'rgba(0,0,0,1)',
                 borderWidth: 2,
-                data: props.dataPoints
+                data: dataPoints
             }
         ]
     };
 
     return (
-        <div>
-            <h1 style={{color:'green'}}>Bar Chart component</h1>
-
-            <Bar
+        <div className="graphChart">
+            <Bar 
                 data={ graphData }
                 options={{
                     title:{
                     display:true,
-                    text:'Average Rainfall per month',
+                    text:graphTitle,
                     fontSize:20
                     },
+
                     legend:{
                     display:true,
                     position:'right'
