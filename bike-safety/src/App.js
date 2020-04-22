@@ -14,6 +14,15 @@ import ZipCodes from './components/ZipCodes';
 import Filters from './components/Filters';
 import { findAllInRenderedTree } from 'react-dom/test-utils';
 
+
+const reportTypes = [
+  "crash",
+  "hazard",
+  "theft",
+  "unconfirmed",
+  "infrastructure_issue",
+  "chop_shop"
+];
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -43,32 +52,65 @@ export default class App extends Component {
   }
 
  
-  sortReportsByType () {
-
-    // let reports = {
-    //   "crash" : [], 
-    //   "hazard": [], 
-    //   "theft":  [],
-    //   "unconfirmed" : [],
-    //   "infrastructure_issue": [],
-    //   "chop_shop" : [] 
-    // };
+  accReportsByType () {
 
     let reports={}
+
+    //initialize with all report types and empty arrays
+    for (let i=0; i<reportTypes.length; i++) {
+      Object.assign(  reports, { [ reportTypes[i].toLowerCase() ] : [ ]} ) 
+    }
+
     let resp=this.state.response;
     for (let i=0; i<resp.length; i++) {
-      if ( resp[i].type in reports )  {
+      if ( resp[i].type.toLowerCase() in reports )  {
 
-        reports[resp[i].type].push(resp[i])   //save report
+        reports[resp[i].type.toLowerCase()].push(resp[i])   //save report
 
       } else {
 
         //first report of that type. Start with an array of 1 elem
-        Object.assign(  reports, { [ resp[i].type ] : [ resp[i] ]} ) 
+        Object.assign(  reports, { [ resp[i].type.toLowerCase() ] : [ resp[i] ]} ) 
         
       }
     }
+
+
+//reportArray : a 2D array. 1st dimension is graph label. 2nd is array of data points
+let reportArray = this.sortReportTypes(reports) ;
+
+
   }
+
+  sortReportTypes(reports) {
+
+    //map reports object to an array of form [  [key, reports], [key, reports], ...  ]
+    let reportArray=Object.keys(reports).map(function(key) {
+      return [key.toLowerCase(), reports[key]];
+    });
+
+    //sort descending order
+    reportArray.sort (function (a, b) {
+      return b[1].length - a[1].length;
+    })
+
+    return reportArray;  
+  }
+
+  createIncidentCntBarGraph(reportArray) {
+    //reportArray : a 2D array. 1st dimension is graph label. 2nd is array of data points
+
+    let labels = []; //bar labels
+    let incidentCnts = []; //bar lengths
+    for (let i=0; i<reportArray.length; i++) {
+      labels.push(reportArray[i][0])
+      incidentCnts.push(reportArray[i][0].length);
+    }
+  }
+
+
+
+
 
   createQueryURL( FilterObj ) {
     
@@ -92,35 +134,33 @@ export default class App extends Component {
       keyword=FilterObj.keyword
     }
 
-    //substitutue space and comma in cityState
-    cityState.replace(/ /g, "%20");
-    cityState.replace(/,/g, "%2C");
-
     let queryURL =  "https://bikewise.org:443/api/v2/incidents?page="+resultPage+"&proximity="+cityState+"&proximity_square="+proximity_sq;
 
     if (keyword.length != 0) {
       queryURL += "&query=" + keyword;
     }
 
+    
+    //substitutue space and comma in query (e.g. cityState, incidentType)
+    queryURL.replace(/ /g, "%20");
+    queryURL.replace(/,/g, "%2C");
+
+
     return queryURL;    
   }
 
   createMultipleURLs ( FilterObj ) {
 
-    let reportTypes = [
-      "crash",
-      "hazard",
-      "theft",
-      "unconfirmed",
-      "infrastructure_issue",
-      "chop_shop"
-    ];
-
     let url=this.createQueryURL( FilterObj );
     let urls=[];
     for ( let i=0; i<reportTypes.length; i++) {
 
-      urls.push(url + "&incident_type=" + reportTypes[i]);
+      //substitutue space and comma in query (e.g. cityState, incidentType)
+      let queryURL = url + "&incident_type=" + reportTypes[i]
+      queryURL.replace(/ /g, "%20");
+      queryURL.replace(/,/g, "%2C");
+
+      urls.push(queryURL);
 
     }
     return urls;
@@ -135,7 +175,7 @@ export default class App extends Component {
 
       this.setState({response: response.data.incidents})
 
-      this.sortReportsByType(response);
+      this.accReportsByType(response);
 
     } catch (e) {
       console.error(e);
@@ -158,18 +198,16 @@ export default class App extends Component {
   
         this.setState({response: arr});   
 
-        this.sortReportsByType(arr);
+        this.accReportsByType(arr);
 
       })
       .catch(error=>{
         console.log('there is an error', error)
       })
-
     )) 
-
   }
 
-
+  
 
   customQuery( FilterObj ) {
 
