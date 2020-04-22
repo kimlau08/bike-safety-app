@@ -23,20 +23,23 @@ export default class App extends Component {
       response: [],
       axiosDataLoaded: false,
 
-      currentProximity: "Dallas, TX", //city or zip
+      currentLocation: "Austin, TX", //city or zip
 
       //default query parms
       resultPage:   2,
-      cityState:    "Dallas, TX",
+      cityState:    "Austin, TX",
       zip:           "",
       proximity_sq:  100,
-      keyword:       "",
+      keyword:       ""
 
     }
 
     this.getBikeWiseData=this.getBikeWiseData.bind(this);
     this.customQuery=this.customQuery.bind(this);
     this.navBar=this.navBar.bind(this);
+
+    this.createQueryURL=this.createQueryURL.bind(this);
+    this.createMultipleURLs=this.createMultipleURLs.bind(this);
   }
 
  
@@ -67,16 +70,21 @@ export default class App extends Component {
     }
   }
 
+  createQueryURL( FilterObj ) {
+    
 
-  async getBikeWiseData( FilterObj ) {
+    //Default URL:
+    // https://bikewise.org:443/api/v2/incidents?page=1&proximity=Dallas%2C%20TX&proximity_square=100
 
-
+    
     //Default filter values
     let resultPage=this.state.resultPage;
     let cityState=this.state.cityState;
     let zip=this.state.zip;
     let proximity_sq=this.state.proximity_sq;
     let keyword=this.state.keyword;
+
+    //fill in custom filter values
     if ( FilterObj !== undefined ) {
       cityState=FilterObj.city;
       zip=FilterObj.zip;
@@ -88,39 +96,92 @@ export default class App extends Component {
     cityState.replace(/ /g, "%20");
     cityState.replace(/,/g, "%2C");
 
-    //Default URL:
-    // https://bikewise.org:443/api/v2/incidents?page=1&proximity=Dallas%2C%20TX&proximity_square=100
-
-    let queryURL = "https://bikewise.org:443/api/v2/incidents?page="+resultPage+"&proximity="+cityState+"&proximity_square="+proximity_sq;
+    let queryURL =  "https://bikewise.org:443/api/v2/incidents?page="+resultPage+"&proximity="+cityState+"&proximity_square="+proximity_sq;
 
     if (keyword.length != 0) {
       queryURL += "&query=" + keyword;
     }
 
+    return queryURL;    
+  }
 
+  createMultipleURLs ( FilterObj ) {
+
+    let reportTypes = [
+      "crash",
+      "hazard",
+      "theft",
+      "unconfirmed",
+      "infrastructure_issue",
+      "chop_shop"
+    ];
+
+    let url=this.createQueryURL( FilterObj );
+    let urls=[];
+    for ( let i=0; i<reportTypes.length; i++) {
+
+      urls.push(url + "&incident_type=" + reportTypes[i]);
+
+    }
+    return urls;
+  }
+
+  async getBikeWiseData( FilterObj ) {
+
+    let queryURL = this.createQueryURL( FilterObj );
     try {
       const response=await axios.get(queryURL);
       console.log("getHTTP response:", response.data.incidents);
 
       this.setState({response: response.data.incidents})
 
-      this.sortReportsByType();
-
+      this.sortReportsByType(response);
 
     } catch (e) {
       console.error(e);
     }
   }
 
+  simultaneousRequests(urls) {
+
+    this.setState( { response : []}); //clear previous data
+
+    //launch a few ajax request simultaneously using Promise.all
+    Promise.all(urls.map((url)=>
+      axios.get(url)
+      .then (response=> {
+        let resp=response.data.incidents;
+        console.log('new resp is in simultaneous mode--->', resp);
+
+        let arr=this.state.response;
+        arr = arr.concat(resp);
+  
+        this.setState({response: arr});   
+
+        this.sortReportsByType(arr);
+
+      })
+      .catch(error=>{
+        console.log('there is an error', error)
+      })
+
+    )) 
+
+  }
+
+
+
   customQuery( FilterObj ) {
 
-    this.getBikeWiseData( FilterObj );
-  
+    let urls=this.createMultipleURLs( FilterObj );
+    this.simultaneousRequests(urls); 
+
   }
 
   componentDidMount() {
 
-    this.getBikeWiseData();
+    let urls=this.createMultipleURLs(  );
+    this.simultaneousRequests(urls);  
 
   }
 
@@ -141,7 +202,6 @@ export default class App extends Component {
 
                 <li>  <Link to="/ZipCodes">Zip Codes</Link> </li>
 
-                <li>  <Link to="/Filters">Filters</Link> </li>
                 <li>
                   <Link to={{
                       pathname: "/Filters",

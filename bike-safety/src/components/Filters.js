@@ -9,7 +9,7 @@ export default class Login extends Component {
 
 
             //Filter parameters
-            cityState:    "Dallas, TX",
+            cityState:    "Austin, TX",
             zip:           "",
             proximity_sq:  100,
             keyword:       "",
