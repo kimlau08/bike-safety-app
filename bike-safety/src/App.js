@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 import {Route, Link, Switch, BrowserRouter as Router } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {Bar} from 'react-chartjs-2';
 
@@ -11,6 +12,7 @@ import TheftSort from './components/TheftSort';
 import CrashSort from './components/CrashSort';
 import ZipCodes from './components/ZipCodes';
 import Filters from './components/Filters';
+import { findAllInRenderedTree } from 'react-dom/test-utils';
 
 export default class App extends Component {
   constructor(props) {
@@ -24,33 +26,97 @@ export default class App extends Component {
       currentProximity: "Dallas, TX", //city or zip
 
       //default query parms
-      resultPage:   1,
-      city:         "Dallas",
-      cityState:    "TX",
-      proximity_sq:  100
+      resultPage:   2,
+      cityState:    "Dallas, TX",
+      zip:           "",
+      proximity_sq:  100,
+      keyword:       "",
 
     }
 
     this.getBikeWiseData=this.getBikeWiseData.bind(this);
+    this.customQuery=this.customQuery.bind(this);
     this.navBar=this.navBar.bind(this);
   }
 
-  
+ 
+  sortReportsByType () {
 
-  getBikeWiseData() {
-    axios.get("https://bikewise.org:443/api/v2/incidents?page=1&proximity=Dallas%2C%20TX&proximity_square=100")
-    .then (response=> {
-      const incidents=response.data.incidents;
-      console.log('bikewise response', incidents);
+    // let reports = {
+    //   "crash" : [], 
+    //   "hazard": [], 
+    //   "theft":  [],
+    //   "unconfirmed" : [],
+    //   "infrastructure_issue": [],
+    //   "chop_shop" : [] 
+    // };
 
-      this.setState({response: incidents,
-                     axiosDataLoaded: true})
-    })
-    .catch(error=>{
-      console.log('there is an error', error)
-    })
+    let reports={}
+    let resp=this.state.response;
+    for (let i=0; i<resp.length; i++) {
+      if ( resp[i].type in reports )  {
+
+        reports[resp[i].type].push(resp[i])   //save report
+
+      } else {
+
+        //first report of that type. Start with an array of 1 elem
+        Object.assign(  reports, { [ resp[i].type ] : [ resp[i] ]} ) 
+        
+      }
+    }
   }
 
+
+  async getBikeWiseData( FilterObj ) {
+
+
+    //Default filter values
+    let resultPage=this.state.resultPage;
+    let cityState=this.state.cityState;
+    let zip=this.state.zip;
+    let proximity_sq=this.state.proximity_sq;
+    let keyword=this.state.keyword;
+    if ( FilterObj !== undefined ) {
+      cityState=FilterObj.city;
+      zip=FilterObj.zip;
+      proximity_sq=FilterObj.proximity_sq;
+      keyword=FilterObj.keyword
+    }
+
+    //substitutue space and comma in cityState
+    cityState.replace(/ /g, "%20");
+    cityState.replace(/,/g, "%2C");
+
+    //Default URL:
+    // https://bikewise.org:443/api/v2/incidents?page=1&proximity=Dallas%2C%20TX&proximity_square=100
+
+    let queryURL = "https://bikewise.org:443/api/v2/incidents?page="+resultPage+"&proximity="+cityState+"&proximity_square="+proximity_sq;
+
+    if (keyword.length != 0) {
+      queryURL += "&query=" + keyword;
+    }
+
+
+    try {
+      const response=await axios.get(queryURL);
+      console.log("getHTTP response:", response.data.incidents);
+
+      this.setState({response: response.data.incidents})
+
+      this.sortReportsByType();
+
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  customQuery( FilterObj ) {
+
+    this.getBikeWiseData( FilterObj );
+  
+  }
 
   componentDidMount() {
 
@@ -59,7 +125,6 @@ export default class App extends Component {
   }
 
 
-  
   navBar() {
     return (
       <div>
@@ -77,6 +142,13 @@ export default class App extends Component {
                 <li>  <Link to="/ZipCodes">Zip Codes</Link> </li>
 
                 <li>  <Link to="/Filters">Filters</Link> </li>
+                <li>
+                  <Link to={{
+                      pathname: "/Filters",
+                      customQueryCallback: this.customQuery,
+                    }}>Filters</Link>
+                </li>
+
               </ul>
 
             </nav>
@@ -107,6 +179,10 @@ export default class App extends Component {
       <div className="App">
 
         {this.navBar()}
+        <Router>
+          <Redirect to='/Home' />  
+        </Router>
+
 
       </div>
     );

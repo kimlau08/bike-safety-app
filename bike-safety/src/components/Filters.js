@@ -9,49 +9,45 @@ export default class Login extends Component {
 
 
             //Filter parameters
-            resultPage:   1,
             cityState:    "Dallas, TX",
             zip:           "",
             proximity_sq:  100,
             keyword:       "",
 
-
-            userId: "",
-            password: "",
-
             redirectToHome: false        }
 
 
+        this.handleCityStateChange=this.handleCityStateChange.bind(this);
+        this.handleZipChange=this.handleZipChange.bind(this);
+        this.handleProximitySqChange=this.handleProximitySqChange.bind(this);
+        this.handleKeywordChange=this.handleKeywordChange.bind(this);
+        this.handleQueryForm=this.handleQueryForm.bind(this);
 
-
-        this.handleUserIdChange=this.handleUserIdChange.bind(this);
-        this.handlePasswordChange=this.handlePasswordChange.bind(this);
-        this.handleSubmitForm=this.handleSubmitForm.bind(this);
     }
 
     
     handleCityStateChange(event) {
         if (event.target !== undefined) {
 
-            this.setState({cityState: event.target.value}); //update the state when the field is changed
+            this.setState({cityState: event.target.value}); 
         }
     }
     handleZipChange(event) {
         if (event.target !== undefined) {
 
-            this.setState({zip: event.target.value}); //update the state when the field is changed
+            this.setState({zip: event.target.value}); 
         }
     }
     handleProximitySqChange(event) {
         if (event.target !== undefined) {
 
-            this.setState({proximity_sq: event.target.value}); //update the state when the field is changed
+            this.setState({proximity_sq: event.target.value}); 
         }
     }
     handleKeywordChange(event) {
         if (event.target !== undefined) {
 
-            this.setState({keyword: event.target.value}); //update the state when the field is changed
+            this.setState({keyword: event.target.value}); 
         }
     }
     handleQueryForm(event) {
@@ -75,63 +71,19 @@ export default class Login extends Component {
 
         event.preventDefault();
 
+        if (filterObj.city === "" && filterObj.zip === "" ) {
+            document.getElementById('formErrorMsg').innerHTML="Please enter a city or zip"
+        } else {
+
+
+            //launch query
+            this.props.location.customQueryCallback(filterObj);
+
             //Redirect back to root (App component)
             this.setState( { redirectToHome: true } ); 
-
-            //swap back to the Home component display before redirect
-            this.props.location.swapDisplayCallback("homeContainer", this.props);
-        
-    }
-
-
-
-    handleUserIdChange(event) {
-        if (event.target !== undefined) {
-
-            this.setState({userId: event.target.value}); //update the state when the field is changed
         }
     }
-    handlePasswordChange(event) {
-        if (event.target !== undefined) {
 
-            this.setState({password: event.target.value}); 
-        }
-    }
-    handleSubmitForm(event) {
-
-        if (event.target.elements === undefined) {
-            return;
-        }
-
-        let userObj={};
-        for (let i=0; i<event.target.elements.length; i++) {
-            let elem=event.target.elements[i];
-            if (elem.type !== "text") {
-                continue;
-            }
-
-            let keyValue={ [elem.name]: elem.value  }
-            //merge key:value pair to userObj
-            Object.assign(userObj, keyValue);
-
-        }
-
-        event.preventDefault();
-
-        let userStr=JSON.stringify(userObj)
-        let authResult=this.props.location.authenticateUserCallBack(userStr);
-
-        if (authResult) {
-            //Redirect back to root (App component)
-            this.setState( { redirectToHome: true } ); 
-
-            //swap back to the Home component display before redirect
-            this.props.location.swapDisplayCallback("homeContainer", this.props);
-        } 
-
-        document.getElementById('authErrorMsg').innerHTML="Incorrect username or password."
-        
-    }
 
     componentDidMount() {
         
@@ -140,54 +92,45 @@ export default class Login extends Component {
 
     render() {
 
-
-
-
-
-
-
-
-
-
-
-
-        
-
-        if (this.props.location.authenticateUserCallBack === undefined ) {
-            return <div></div>
-        }
-        if (this.props.location.swapDisplayCallback === undefined) {
-            return <div></div>
-        }
-
-        let toContainerId="loginContainer";
-        if (! this.state.redirectToHome) {  //do not overwrite display setup by submit form if redirecting away from login
-            
-            this.props.location.swapDisplayCallback(toContainerId, this.props);
+        if (this.props.location.customQueryCallback === undefined) {
+            return <div></div>    //no callback to make query
         }
 
         return (
-            <div id={toContainerId}>
+            <div id="FilterContainer">
                 
                 {this.state.redirectToHome &&
                         <Redirect to='/Home' />    //route back to root (App component) depending on state
                 }
-                <form className="LoginFormContainer" onSubmit={this.handleSubmitForm}>
-                    <p  className="loginTitle">Login</p>
 
-                    <label className="userIdInput">
-                        username
-                        <input className="textInput" type="text" name="username" value={this.state.userId} placeholder="user id" onChange={this.handleUserIdChange} />
+
+                <form className="FilterFormContainer" onSubmit={this.handleQueryForm}>
+                    
+                    <p  className="FilterTitle">Filters</p>
+
+                    <label className="cityInput">
+                        City
+                        <input className="textInput" type="text" name="city" value={this.state.cityState} placeholder="Choose City, State" onChange={this.handleCityStateChange} />
                     </label>
 
-                    <label className="passwordInput">
-                        password
-                        <input className="textInput" type="text" name="password" value={this.state.password} placeholder="password" onChange={this.handlePasswordChange} />
+                    <label className="zipInput">
+                        Zip
+                        <input className="textInput" type="text" name="zip" value={this.state.zip} placeholder="Enter Zip" onChange={this.handleZipChange} />
                     </label>
 
-                    <p  id="authErrorMsg"></p>
+                    <label className="distanceInput">
+                        Proximity
+                        <input className="numberInput" type="number" name="proximity_sq" value={this.state.proximity_sq} placeholder="Enter Distance" onChange={this.handleProximitySqChange} />
+                    </label>
 
-                    <button type="submit" className="loginButton">Login</button>
+                    <label className="keywordInput">
+                        Keyword
+                        <input className="textInput" type="text" name="keyword" value={this.state.keyword} placeholder="Enter Text" onChange={this.handleKeywordChange} />
+                    </label>
+
+                    <p  id="formErrorMsg"></p>
+
+                    <button type="Search" className="searchButton">Search</button>
 
                 </form>
             </div>

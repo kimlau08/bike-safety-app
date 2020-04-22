@@ -53,3 +53,102 @@ border: solid 1px red;
   #homeContainer {
     background-color: white;
   }
+
+
+  
+/******************************************************************
+*   Filter form
+******************************************************************/
+
+
+.FilterFormContainer {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr ;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+
+  width: 600px;
+  height: 400px;
+  border: solid 1px lightgrey;
+  border-radius: 10px;
+
+  padding: 20px 20px;
+  
+}
+
+
+  .FilterTitle {
+    grid-column: 2/3;
+    grid-row: 1;
+    align-self: center;
+
+
+    margin-top: 20px;
+
+
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+  }
+
+
+  .cityInput {
+    grid-column: 1/2;
+    grid-row: 2;
+    align-self: center;
+
+    margin-top: 20px;
+  }
+  .zipInput {
+    grid-column: 3/4;
+    grid-row: 2;
+    align-self: center;
+
+    margin-top: 20px;
+  }
+  .distanceInput {
+    grid-column: 1/2;
+    grid-row: 3;
+    align-self: center;
+
+    margin-top: 20px;
+  }
+  .keywordInput {
+    grid-column: 3/4;
+    grid-row: 3;
+    align-self: center;
+
+    margin-top: 20px;
+  }
+
+  #formErrorMsg {
+    grid-column: 2/3;
+    grid-row: 4;
+    align-self: center;
+
+    margin-top: 20px;
+    color: red;
+  }
+
+  .searchButton {
+    grid-column: 2/3;
+    grid-row: 5;
+    align-self: center;
+
+    border: solid 1px lightslategray;
+    border-radius: 10px;
+
+    width: 100px;
+    height: 30px;
+
+    font-size: 18px;
+    text-align: center;
+    margin-left: 60px;
+  }
+  .textInput, .numberInput {
+    border: solid 1px lightgrey;
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 8px;
+  }
+
