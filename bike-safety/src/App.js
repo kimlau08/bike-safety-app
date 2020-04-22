@@ -5,6 +5,7 @@ import {Route, Link, Switch, BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 import {Bar} from 'react-chartjs-2';
 
+import Home from './components/Home';
 import HazardSort from './components/HazardSort';
 import TheftSort from './components/TheftSort';
 import CrashSort from './components/CrashSort';
@@ -20,6 +21,8 @@ export default class App extends Component {
       response: [],
       axiosDataLoaded: false,
 
+      currentProximity: "Dallas, TX", //city or zip
+
       //default query parms
       resultPage:   1,
       city:         "Dallas",
@@ -32,19 +35,20 @@ export default class App extends Component {
     this.navBar=this.navBar.bind(this);
   }
 
+  
 
-  async getBikeWiseData() {
-    try {
-      const response=axios.get("https://bikewise.org:443/api/v2/incidents?page=1&proximity=Dallas%2C%20TX&proximity_square=100")
+  getBikeWiseData() {
+    axios.get("https://bikewise.org:443/api/v2/incidents?page=1&proximity=Dallas%2C%20TX&proximity_square=100")
+    .then (response=> {
+      const incidents=response.data.incidents;
+      console.log('bikewise response', incidents);
 
-      console.log("bikewise response:", response.data);
-
-      this.setState({response: response.data.incidents, 
-                     axiosDataLoaded: true});
-
-    } catch (e) {
-      console.error(e);
-    }
+      this.setState({response: incidents,
+                     axiosDataLoaded: true})
+    })
+    .catch(error=>{
+      console.log('there is an error', error)
+    })
   }
 
 
@@ -80,7 +84,7 @@ export default class App extends Component {
             <h2 className="logoLine">Bike Safety</h2>
 
             <Switch>
-              <Route path="/Home" component={App} />
+              <Route path="/Home" component={Home} />
 
               <Route path="/HazardSort" component={HazardSort} />
 
