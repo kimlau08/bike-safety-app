@@ -432,24 +432,6 @@ this.simultaneousRequests(urls);
     }
   }
 
-// async getBikeWiseReports( FilterObj ) {
-//   //get a list of detailed incident report 
-
-//   let queryPrefix="https://bikewise.org:443/api/v2/incidents?page=1";
-//   let queryURL = this.createQueryURL( FilterObj, queryPrefix );
-//   try {
-//     const response=await axios.get(queryURL);
-//     console.log("Bikewise report response:", response.data.incidents);
-
-//     this.setState({response: response.data.incidents})
-
-//     this.stackReportsByType(response);
-
-//   } catch (e) {
-//     console.error(e);
-//   }
-// }
-
   navBar() {
     return (
       <div>
