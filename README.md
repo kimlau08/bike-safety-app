@@ -32,7 +32,7 @@
 ### Functional components
 #### HazardSort.js
 #### TheftSort.js
-#### CrashSort.js
+#### UnconfirmedSort.js
 #### ZipCodes.js
 #
 # Technologies used
