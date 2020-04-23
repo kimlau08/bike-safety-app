@@ -297,7 +297,7 @@ export default class App extends Component {
       axios.get(url)
       .then (response=> {
         let resp=response.data.incidents;
-        console.log('new resp is in simultaneous mode--->', resp);
+        //console.log('new resp is in simultaneous mode--->', resp);
 
         let arr=this.state.response;
         arr = arr.concat(resp);
@@ -308,7 +308,7 @@ export default class App extends Component {
 
       })
       .catch(error=>{
-        console.log('there is an error', error)
+        //console.log('there is an error', error)
       })
     )) 
   }
@@ -386,7 +386,7 @@ this.simultaneousRequests(urls);
 
     try {
       const response=await axios.get(queryURL);
-      console.log("reverse geocodes response:", response.data.postcode);
+      //console.log("reverse geocodes response:", response.data.postcode);
 
       let zipObj={ id:        feature.properties.id,
                  type:        feature.properties.type,
@@ -419,7 +419,7 @@ this.simultaneousRequests(urls);
     let queryURL = this.createQueryURL( FilterObj, queryPrefix );
     try {
       const response=await axios.get(queryURL);
-      console.log("Bikewise report response:", response.data.features);
+      //console.log("Bikewise report response:", response.data.features);
 
       this.setState({locations: response.data.features})
 
