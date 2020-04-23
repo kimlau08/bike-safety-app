@@ -372,14 +372,13 @@ export default class App extends Component {
   }
 
 
-
   async getZipData( feature ) {
 
-    let geocodesAPI=config.REACT_APP_BIG_DATA_CLOUD_KEY;
+    let geocodesAPIKey=config.REACT_APP_BIG_DATA_CLOUD_KEY;
 
     let longitude=feature.geometry.coordinates[0];  let latitude=feature.geometry.coordinates[1]; 
     let queryURL=
-      `https://api.bigdatacloud.net/data/reverse-geocode?latitude=${latitude}&longitude=${longitude}&localityLanguage=en&key=${geocodesAPI}`
+      `https://api.bigdatacloud.net/data/reverse-geocode?latitude=${latitude}&longitude=${longitude}&localityLanguage=en&key=${geocodesAPIKey}`
 
     try {
       const response=await axios.get(queryURL);
@@ -410,7 +409,7 @@ export default class App extends Component {
     //get a large amount of reports and locations. chained to 2nd API to get zip code info
 
 
-    let limit=200;
+    let limit=50;
     let queryPrefix="https://bikewise.org:443/api/v2/locations?"+`limit=${limit}`
 
     let queryURL = this.createQueryURL( FilterObj, queryPrefix );

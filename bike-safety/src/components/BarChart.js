@@ -38,6 +38,14 @@ export default function BarChart (props) {
                     legend:{
                     display:false,
                     position:'right'
+                    },
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
                     }
                 }}
             />
