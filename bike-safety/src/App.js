@@ -285,6 +285,40 @@ export default class App extends Component {
 
   swapContainerOnDisplay(toContainerId, inputProps) {   
 
+
+    //turn on display of "from container" in props. display "to container" instead
+
+    if (inputProps.location === undefined) { 
+      //Came in from direct React component call instead of Router. No need to swap display
+
+      this.setContainerOnDisplay(toContainerId); //just save the to container and return
+      return;
+    }
+
+    let fromContainerId=this.state.containerOnDisplay;
+    let fromContainerElem=null;
+    if (fromContainerId !== ""  &&  fromContainerId !== toContainerId) {
+        fromContainerElem = document.getElementById(fromContainerId);
+        if (fromContainerElem !== null) {
+
+            document.getElementById(fromContainerId).style.display="none";
+        }
+    }
+
+    //display to container
+    let toContainerElem=document.getElementById(toContainerId);
+    if (toContainerElem === null) {
+
+      return;   //cannot find to container
+
+    } else {
+      
+      //display to container
+      document.getElementById(toContainerId).style.display="";
+      this.setContainerOnDisplay(toContainerId); //save the to container 
+
+    }
+
   }
 
   navBar() {
