@@ -126,12 +126,8 @@ export default class App extends Component {
       return; //no data
     }
 
-    let reports={}
-
-    //initialize with all report types and empty arrays
-    for (let i=0; i<reportTypes.length; i++) {
-      Object.assign(  reports, { [ reportTypes[i].toLowerCase() ] : [ ]} ) 
-    }
+    //create empty arrays of report types
+    let reports = this.initializeReportStacks(); 
 
     let resp=this.state.response;
     for (let i=0; i<resp.length; i++) {
@@ -170,7 +166,7 @@ export default class App extends Component {
   graphIncidentTypes() {
 
     //reportArray : a 2D array. 1st dimension is graph label. 2nd is array of data points
-    let reportArray = this.sortReportTypes(this.state.reportsByType);
+    let reportArray = this.sortReportTypes(this.state.locationsByType);
 
     //create lables and data points
     let labels = []; //bar labels
@@ -411,7 +407,7 @@ export default class App extends Component {
     //get a large amount of reports and locations. chained to 2nd API to get zip code info
 
 
-    let limit=10;
+    let limit=100;
     let queryPrefix="https://bikewise.org:443/api/v2/locations?"+`limit=${limit}`
 
     let queryURL = this.createQueryURL( FilterObj, queryPrefix );
