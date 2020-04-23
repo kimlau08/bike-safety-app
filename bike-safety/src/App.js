@@ -32,8 +32,11 @@ export default class App extends Component {
     this.state = {
 
       response: [],
+      locations: [],
+      locationsAndZips: [],
       axiosDataLoaded: false,
 
+      locationsByType: {},
       reportsByType: {},
       currentLocation: "Austin, TX", //city or zip
 
@@ -48,13 +51,16 @@ export default class App extends Component {
     }
 
     this.getBikeWiseData=this.getBikeWiseData.bind(this);
+    this.getBikeWiseReports=this.getBikeWiseReports.bind(this);
+    this.getZipData=this.getZipData.bind(this);
     this.customQuery=this.customQuery.bind(this);
     this.navBar=this.navBar.bind(this);
 
     this.createQueryURL=this.createQueryURL.bind(this);
-    this.createMultipleURLs=this.createMultipleURLs.bind(this);
+//this.createMultipleURLs=this.createMultipleURLs.bind(this);
 
     this.stackReportsByType=this.stackReportsByType.bind(this);
+    this.stackZipDataByType=this.stackZipDataByType.bind(this);
     this.sortReportTypes=this.sortReportTypes.bind(this);
 
     this.graphIncidentTypes=this.graphIncidentTypes.bind(this);
@@ -62,12 +68,63 @@ export default class App extends Component {
 
     this.swapContainerOnDisplay=this.swapContainerOnDisplay.bind(this);
     this.setContainerOnDisplay=this.setContainerOnDisplay.bind(this);
+  
+    this.getReportsByType=this.getReportsByType.bind(this);
 
+
+  }
+
+  getReportsByType() {
+    return JSON.stringify(this.state.reportsByType);
+  }
+
+  initializeReportStacks() {
+
+    let reports={}
+
+    //initialize with all report types and empty arrays
+    for (let i=0; i<reportTypes.length; i++) {
+      Object.assign(  reports, { [ reportTypes[i].toLowerCase() ] : [ ]} ) 
+    }
+
+    return reports;
+  }
+  
+  stackZipDataByType () {
+    //group the report locations by report types
+
+    if (this.state.locationsAndZips === undefined) {
+      return; //no data
+    }
+
+    //create empty arrays of report types
+    let locations = this.initializeReportStacks(); 
+
+    let zipList=this.state.locationsAndZips;
+    for (let i=0; i<zipList.length; i++) {
+      if ( zipList[i].type.toLowerCase() in locations )  {
+
+        locations[zipList[i].type.toLowerCase()].push(zipList[i])   //save report
+
+      } else {
+
+        //first report of that type. Start with an array of 1 elem
+        Object.assign(  locations, { [ zipList[i].type.toLowerCase() ] : [ zipList[i] ]} ) 
+        
+      }
+    }
+
+    this.setState(  {locationsByType: locations}  )
 
   }
 
  
   stackReportsByType () {
+    //group the reports by report types
+
+    if (this.state.response === undefined) {
+      return; //no data
+    }
 
     let reports={}
 
@@ -95,6 +152,7 @@ export default class App extends Component {
   }
 
   sortReportTypes(reports) {
+    //Sort the report types by occurrences
 
     //map reports object to an array of form [  [key, reports], [key, reports], ...  ]
     let reportArray=Object.keys(reports).map(function(key) {
@@ -143,7 +201,7 @@ export default class App extends Component {
 
     //sort by update date
     theftReports.sort(function(a, b) {
-      return b.updated_at - a.updated_at;
+      return b.occurred_at - a.occurred_at;
     })
 
     //find 3 reports with media
@@ -170,10 +228,12 @@ export default class App extends Component {
   }
 
 
-  createQueryURL( FilterObj ) {
+  createQueryURL( FilterObj, queryPrefix ) {
     
     //Default URL:
     // https://bikewise.org:443/api/v2/incidents?page=1&proximity=Dallas%2C%20TX&proximity_square=100
+    // "https://bikewise.org:443/api/v2/locations?proximity=Austin%2C%20TX&proximity_square=100&limit=10";
+
 
     
     //Default filter values
@@ -191,7 +251,11 @@ export default class App extends Component {
       keyword=FilterObj.keyword
     }
 
-    let queryURL =  "https://bikewise.org:443/api/v2/incidents?page="+resultPage+"&proximity="+cityState+"&proximity_square="+proximity_sq;
+    if ( queryPrefix === undefined ) {
+      queryPrefix = "https://bikewise.org:443/api/v2/incidents?page=1";
+    }
+
+    let queryURL =  queryPrefix+"&proximity="+cityState+"&proximity_square="+proximity_sq;
 
     if (keyword.length != 0) {
       queryURL += "&query=" + keyword;
@@ -199,83 +263,74 @@ export default class App extends Component {
 
     
     //substitutue space and comma in query (e.g. cityState, incidentType)
-    queryURL.replace(/ /g, "%20");
-    queryURL.replace(/,/g, "%2C");
+    queryURL=queryURL.replace(/ /g, "%20");
+    queryURL=queryURL.replace(/,/g, "%2C");
 
 
     return queryURL;    
   }
 
-  createMultipleURLs ( FilterObj ) {
+  // createMultipleURLs ( FilterObj ) {
 
-    let url=this.createQueryURL( FilterObj );
-    let urls=[];
-    for ( let i=0; i<reportTypes.length; i++) {
+  //   let url=this.createQueryURL( FilterObj );
+  //   let urls=[];
+  //   for ( let i=0; i<reportTypes.length; i++) {
 
-      //substitutue space and comma in query (e.g. cityState, incidentType)
-      let queryURL = url + "&incident_type=" + reportTypes[i]
-      queryURL.replace(/ /g, "%20");
-      queryURL.replace(/,/g, "%2C");
+  //     //substitutue space and comma in query (e.g. cityState, incidentType)
+  //     let queryURL = url + "&incident_type=" + reportTypes[i]
+  //     queryURL.replace(/ /g, "%20");
+  //     queryURL.replace(/,/g, "%2C");
 
-      urls.push(queryURL);
+  //     urls.push(queryURL);
 
-    }
-    return urls;
-  }
+  //   }
+  //   return urls;
+  // }
 
-  async getBikeWiseData( FilterObj ) {
+  // simultaneousRequests(urls) {
 
-    let queryURL = this.createQueryURL( FilterObj );
-    try {
-      const response=await axios.get(queryURL);
-      console.log("getHTTP response:", response.data.incidents);
+  //   this.setState( { response : []}); //clear previous data
 
-      this.setState({response: response.data.incidents})
+  //   //launch a few ajax request simultaneously using Promise.all
+  //   Promise.all(urls.map((url)=>
+  //     axios.get(url)
+  //     .then (response=> {
+  //       let resp=response.data.incidents;
+  //       console.log('new resp is in simultaneous mode--->', resp);
 
-      this.stackReportsByType(response);
-
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  simultaneousRequests(urls) {
-
-    this.setState( { response : []}); //clear previous data
-
-    //launch a few ajax request simultaneously using Promise.all
-    Promise.all(urls.map((url)=>
-      axios.get(url)
-      .then (response=> {
-        let resp=response.data.incidents;
-        console.log('new resp is in simultaneous mode--->', resp);
-
-        let arr=this.state.response;
-        arr = arr.concat(resp);
+  //       let arr=this.state.response;
+  //       arr = arr.concat(resp);
   
-        this.setState({response: arr});   
+  //       this.setState({response: arr});   
 
-        this.stackReportsByType(arr);
+  //       this.stackReportsByType(arr);
 
-      })
-      .catch(error=>{
-        console.log('there is an error', error)
-      })
-    )) 
-  }
+  //     })
+  //     .catch(error=>{
+  //       console.log('there is an error', error)
+  //     })
+  //   )) 
+  // }
 
   
   customQuery( FilterObj ) {
 
-    let urls=this.createMultipleURLs( FilterObj );
-    this.simultaneousRequests(urls); 
+    this.getBikeWiseReports(FilterObj); //recent report details
+    this.getBikeWiseData(FilterObj);  //report data
+
+// let urls=this.createMultipleURLs( FilterObj );
+// this.simultaneousRequests(urls); 
 
   }
 
   componentDidMount() {
 
-    let urls=this.createMultipleURLs(  );
-    this.simultaneousRequests(urls);  
+    
+    this.getBikeWiseReports();  //recent report details
+    this.getBikeWiseData();      //report data
+
+// let urls=this.createMultipleURLs(  );
+// this.simultaneousRequests(urls);  
 
   }
 
@@ -319,6 +374,80 @@ export default class App extends Component {
     }
   }
 
+
+
+  async getZipData( feature ) {
+
+    let longitude=feature.geometry.coordinates[0];  let latitude=feature.geometry.coordinates[1]; 
+    let queryURL = 
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
+
+    try {
+      const response=await axios.get(queryURL);
+      console.log("reverse geocodes response:", response.data.postcode);
+
+      let zipObj={ id:        feature.properties.id,
+                 type:        feature.properties.type,
+                 zip:         response.data.postcode,
+                 longitude:   longitude,
+                 latitude:    latitude
+               };
+
+      let arr=this.state.locationsAndZips;
+      arr.push(zipObj);
+
+      this.setState({locationsAndZips: arr});
+
+      this.stackZipDataByType(response);
+
+    
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+
+  async getBikeWiseData( FilterObj ) {
+    //get a large amount of reports and locations. chained to 2nd API to get zip code info
+
+
+    let limit=10;
+    let queryPrefix="https://bikewise.org:443/api/v2/locations?"+`limit=${limit}`
+
+    let queryURL = this.createQueryURL( FilterObj, queryPrefix );
+    try {
+      const response=await axios.get(queryURL);
+      console.log("Bikewise report response:", response.data.features);
+
+      this.setState({locations: response.data.features})
+
+      //chained to Reverse Geocodes lookup API to get zip code from coordinates
+      this.setState({locationsAndZips: []})  //clear data before lookup
+      response.data.features.map(this.getZipData);
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async getBikeWiseReports( FilterObj ) {
+    //get a list of detailed incident report 
+
+    let queryPrefix="https://bikewise.org:443/api/v2/incidents?page=1";
+    let queryURL = this.createQueryURL( FilterObj );
+    try {
+      const response=await axios.get(queryURL);
+      console.log("Bikewise report response:", response.data.incidents);
+
+      this.setState({response: response.data.incidents})
+
+      this.stackReportsByType(response);
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   navBar() {
     return (
       <div>
@@ -332,7 +461,13 @@ export default class App extends Component {
                     }}>Home</Link>
                 </li>
 
-                <li> <Link to="/HazardSort">Hazard Sort</Link> </li>
+                <li>
+                  <Link to={{
+                      pathname: "/HazardSort",
+                      getReportsByTypeCallBack: this.getReportsByType,
+                      swapDisplayCallback: this.swapContainerOnDisplay,
+                    }}>Hazard Sort</Link>
+                </li>
 
                 <li>  <Link to="/TheftSort">Theft Sort</Link>  </li>
 

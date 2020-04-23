@@ -87,13 +87,6 @@ export default class Login extends Component {
         }
     }
 
-
-    componentDidMount() {
-        
- //       this.setState(this.state); //re-render to clear the Home component display
-        
-    }
-
     render() {
 
         if (this.props.location.customQueryCallback === undefined) {
