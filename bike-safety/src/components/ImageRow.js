@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import genericImg from '../assets/bike-trail.jpg';
 
 export default class ImageRow extends Component {
     constructor(props) {

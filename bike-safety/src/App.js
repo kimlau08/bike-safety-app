@@ -58,7 +58,7 @@ export default class App extends Component {
     this.navBar=this.navBar.bind(this);
 
     this.createQueryURL=this.createQueryURL.bind(this);
-//this.createMultipleURLs=this.createMultipleURLs.bind(this);
+this.createMultipleURLs=this.createMultipleURLs.bind(this);
 
     this.stackReportsByType=this.stackReportsByType.bind(this);
     this.stackZipDataByType=this.stackZipDataByType.bind(this);
@@ -267,67 +267,67 @@ export default class App extends Component {
     return queryURL;    
   }
 
-  // createMultipleURLs ( FilterObj ) {
+  createMultipleURLs ( FilterObj ) {
 
-  //   let url=this.createQueryURL( FilterObj );
-  //   let urls=[];
-  //   for ( let i=0; i<reportTypes.length; i++) {
+    let url=this.createQueryURL( FilterObj );
+    let urls=[];
+    for ( let i=0; i<reportTypes.length; i++) {
 
-  //     //substitutue space and comma in query (e.g. cityState, incidentType)
-  //     let queryURL = url + "&incident_type=" + reportTypes[i]
-  //     queryURL.replace(/ /g, "%20");
-  //     queryURL.replace(/,/g, "%2C");
+      //substitutue space and comma in query (e.g. cityState, incidentType)
+      let queryURL = url + "&incident_type=" + reportTypes[i]
+      queryURL.replace(/ /g, "%20");
+      queryURL.replace(/,/g, "%2C");
 
-  //     urls.push(queryURL);
+      urls.push(queryURL);
 
-  //   }
-  //   return urls;
-  // }
+    }
+    return urls;
+  }
 
-  // simultaneousRequests(urls) {
+  simultaneousRequests(urls) {
 
-  //   this.setState( { response : []}); //clear previous data
+    this.setState( { response : []}); //clear previous data
 
-  //   //launch a few ajax request simultaneously using Promise.all
-  //   Promise.all(urls.map((url)=>
-  //     axios.get(url)
-  //     .then (response=> {
-  //       let resp=response.data.incidents;
-  //       console.log('new resp is in simultaneous mode--->', resp);
+    //launch a few ajax request simultaneously using Promise.all
+    Promise.all(urls.map((url)=>
+      axios.get(url)
+      .then (response=> {
+        let resp=response.data.incidents;
+        console.log('new resp is in simultaneous mode--->', resp);
 
-  //       let arr=this.state.response;
-  //       arr = arr.concat(resp);
+        let arr=this.state.response;
+        arr = arr.concat(resp);
   
-  //       this.setState({response: arr});   
+        this.setState({response: arr});   
 
-  //       this.stackReportsByType(arr);
+        this.stackReportsByType(arr);
 
-  //     })
-  //     .catch(error=>{
-  //       console.log('there is an error', error)
-  //     })
-  //   )) 
-  // }
+      })
+      .catch(error=>{
+        console.log('there is an error', error)
+      })
+    )) 
+  }
 
   
   customQuery( FilterObj ) {
 
-    this.getBikeWiseReports(FilterObj); //recent report details
+//    this.getBikeWiseReports(FilterObj); //recent report details
     this.getBikeWiseData(FilterObj);  //report data
 
-// let urls=this.createMultipleURLs( FilterObj );
-// this.simultaneousRequests(urls); 
+let urls=this.createMultipleURLs( FilterObj );
+this.simultaneousRequests(urls); 
 
   }
 
   componentDidMount() {
 
     
-    this.getBikeWiseReports();  //recent report details
+//    this.getBikeWiseReports();  //recent report details
     this.getBikeWiseData();      //report data
 
-// let urls=this.createMultipleURLs(  );
-// this.simultaneousRequests(urls);  
+let urls=this.createMultipleURLs(  );
+this.simultaneousRequests(urls);  
 
   }
 
