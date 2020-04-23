@@ -33,7 +33,7 @@ export default class App extends Component {
       response: [],
       axiosDataLoaded: false,
 
-      reportsByType: [],
+      reportsByType: {},
 
       currentLocation: "Austin, TX", //city or zip
 
@@ -129,13 +129,17 @@ export default class App extends Component {
   displayImgCard(imgCardInfo) {
     return (
       <div className="bikeImgCard">
-        <p>imgCardInfo.reportTitle</p>
-        <img src={imgCardInfo.bikeImg} />
+        <p className="reportTitle">{imgCardInfo.reportTitle}</p>
+        <img className="bikeImg" src={imgCardInfo.bikeImg} />
       </div>
     )
   }
 
   displayMostRecentThefts() {
+
+    if ( JSON.stringify(this.state.reportsByType) === JSON.stringify({}) ) {
+      return <div></div>      //no data to display
+    }
 
     let theftReports=this.state.reportsByType["theft"]; 
 
@@ -149,8 +153,8 @@ export default class App extends Component {
     for (let i=0; i<theftReports.length; i++) {
       if (theftReports[i].media.image_url !== null) {
 
-        theftImg.push(  {bikeImg: theftReports[i].media.image_url},
-                        {reportTitle: theftReports[i].title });
+        theftImg.push(  {bikeImg: theftReports[i].media.image_url,
+                         reportTitle: theftReports[i].title });
 
         if ( theftImg.length >= 3 ) {   //only need 3 reports
           break;
@@ -160,7 +164,7 @@ export default class App extends Component {
 
     return (
       <div className="bikeImgRow">
-          theftImg.map( displayImgCard );
+          {theftImg.map( this.displayImgCard ) }
       </div>
     )
   }
@@ -335,7 +339,7 @@ export default class App extends Component {
         </Router>
 
         {this.graphIncidentTypes()}
-{/* {this.displayMostRecentThefts()} */}
+        {this.displayMostRecentThefts()}
       </div>
     );
   }

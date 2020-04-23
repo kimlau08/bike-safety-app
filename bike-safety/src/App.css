@@ -30,14 +30,40 @@ textarea {
   justify-content: center;
 border: solid 1px green;
   
-}
-  .graphChart {
-    width: 60%;
+  }
+    .graphChart {
+      width: 40%;
+      height: auto;
+
+  border: solid 1px red;
+    }
+
+  .bikeImgRow {
+    width: 100%;
     height: auto;
 
-border: solid 1px red;
-}
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 
+border: solid 1px brown;
+  }
+    .reportTitle {
+      margin: 5 0  auto;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .bikeImgCard {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+      .bikeImg {
+        width: 350px;
+        height: 400px;
+
+      }
 
 
 /******************************************************************
