@@ -16,6 +16,12 @@ import ImageRow from './components/ImageRow';
 import config from './config/config';
 
 
+import { connect } from 'react-redux';
+
+import setProximity from './actions/index.js'; 
+
+
+
 const reportTypes = [
   "crash",
   "hazard",
@@ -24,7 +30,7 @@ const reportTypes = [
   "infrastructure_issue",
   "chop_shop"
 ];
-export default class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
 
@@ -50,7 +56,6 @@ export default class App extends Component {
     }
 
     this.getBikeWiseData=this.getBikeWiseData.bind(this);
- //   this.getBikeWiseReports=this.getBikeWiseReports.bind(this);
     this.getZipData=this.getZipData.bind(this);
     this.customQuery=this.customQuery.bind(this);
     this.navBar=this.navBar.bind(this);
@@ -71,7 +76,12 @@ export default class App extends Component {
     this.getLocationsByType=this.getLocationsByType.bind(this);
     this.getReportsByType=this.getReportsByType.bind(this);
 
+    this.rdxSetProximity=this.rdxSetProximity.bind(this);
 
+  }
+
+  rdxSetProximity = (proximity) => {
+    this.props.dispatch(setProximity(proximity));
   }
 
   getLocationsByType() {
@@ -233,8 +243,6 @@ export default class App extends Component {
     // https://bikewise.org:443/api/v2/incidents?page=1&proximity=Dallas%2C%20TX&proximity_square=100
     // "https://bikewise.org:443/api/v2/locations?proximity=Austin%2C%20TX&proximity_square=100&limit=10";
 
-
-    
     //Default filter values
     let resultPage=this.state.resultPage;
     let cityState=this.state.cityState;
@@ -316,22 +324,20 @@ export default class App extends Component {
   
   customQuery( FilterObj ) {
 
-//    this.getBikeWiseReports(FilterObj); //recent report details
     this.getBikeWiseData(FilterObj);  //report data
 
-let urls=this.createMultipleURLs( FilterObj );
-this.simultaneousRequests(urls); 
+    let urls=this.createMultipleURLs( FilterObj );
+    this.simultaneousRequests(urls); 
 
   }
 
   componentDidMount() {
 
     
-//    this.getBikeWiseReports();  //recent report details
     this.getBikeWiseData();      //report data
 
-let urls=this.createMultipleURLs(  );
-this.simultaneousRequests(urls);  
+    let urls=this.createMultipleURLs(  );
+    this.simultaneousRequests(urls);  
 
   }
 
@@ -413,7 +419,7 @@ this.simultaneousRequests(urls);
     //get a large amount of reports and locations. chained to 2nd API to get zip code info
 
 
-    let limit=50;
+    const limit=50;
     let queryPrefix="https://bikewise.org:443/api/v2/locations?"+`limit=${limit}`
 
     let queryURL = this.createQueryURL( FilterObj, queryPrefix );
@@ -423,9 +429,19 @@ this.simultaneousRequests(urls);
 
       this.setState({locations: response.data.features})
 
-      //chained to Reverse Geocodes lookup API to get zip code from coordinates
+      //chained request to Reverse Geocodes lookup API to get zip code from coordinates
       this.setState({locationsAndZips: []})  //clear data before lookup
       response.data.features.map(this.getZipData);
+
+      if (FilterObj !== undefined) {
+
+        //dispatch update action for proximity
+        this.rdxSetProximity( FilterObj.city );
+
+      }
+
+
+
 
     } catch (e) {
       console.error(e);
@@ -491,6 +507,8 @@ this.simultaneousRequests(urls);
 
               </ul>
 
+              <p className="cityProximity"> { this.props.proximity } </p>
+
             </nav>
 
             <h2 className="logoLine">Bike Safety</h2>
@@ -535,3 +553,15 @@ this.simultaneousRequests(urls);
   }
 }
 
+
+function mapStateToProps(state) {
+  return {
+
+    proximity: state.proximity,
+
+    count: state.count
+  };
+}
+
+
+export default connect(mapStateToProps)(App);
