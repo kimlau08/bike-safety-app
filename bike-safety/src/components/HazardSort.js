@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import BarChart from './BarChart';
 import GraphByZip from './GraphByZip';
 
 export default class HazardSort extends Component {
@@ -33,7 +32,10 @@ export default class HazardSort extends Component {
                         <Redirect to='/Home' />    //route back to root (App component) depending on state
                 }
 
-            <GraphByZip  reportType={'hazard'} getLocationsByTypeCallback={this.props.location.getLocationsByTypeCallback} />
+            <GraphByZip  
+                reportType={'hazard'} 
+                graphTitle={'Hazards by Zip codes'}
+                getLocationsByTypeCallback={this.props.location.getLocationsByTypeCallback} />
 
             </div>
         )

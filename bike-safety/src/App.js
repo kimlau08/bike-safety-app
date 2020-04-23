@@ -467,11 +467,29 @@ export default class App extends Component {
                     }}>Hazard Sort</Link>
                 </li>
 
-                <li>  <Link to="/TheftSort">Theft Sort</Link>  </li>
+                <li>
+                  <Link to={{
+                      pathname: "/TheftSort",
+                      getLocationsByTypeCallback: this.getLocationsByType,
+                      swapDisplayCallback: this.swapContainerOnDisplay,
+                    }}>Theft Sort</Link>
+                </li>
 
-                <li>  <Link to="/CrashSort">Crash Sort</Link>  </li>
+                <li>
+                  <Link to={{
+                      pathname: "/CrashSort",
+                      getLocationsByTypeCallback: this.getLocationsByType,
+                      swapDisplayCallback: this.swapContainerOnDisplay,
+                    }}>Crash Sort</Link>
+                </li>
 
-                <li>  <Link to="/ZipCodes">Zip Codes</Link> </li>
+                <li>
+                  <Link to={{
+                      pathname: "/ZipCodes",
+                      getLocationsByTypeCallback: this.getLocationsByType,
+                      swapDisplayCallback: this.swapContainerOnDisplay,
+                    }}>Zip Codes</Link>
+                </li>
 
                 <li>
                   <Link to={{

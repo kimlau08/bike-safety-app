@@ -4,15 +4,30 @@ import BarChart from './BarChart';
 
 const sortReportsByZip = (locationsByType, typeOfReport) => {
 
-    //get reports of given type
-    let reportType = typeOfReport.toLowerCase();
-    if (locationsByType[reportType] === 0 || 
-        locationsByType[reportType] === undefined ) {
-            return [] ;      //no data 
-    }
+
+    let reportList = [];
+    let reportType = "";
+    if ( typeOfReport === "ALL" ) {
+
+        //all types of reports are included in the zip analysis. concat all report types
+        for (let i in locationsByType ) {  //locationByType is an object of arrays
+            reportList = reportList.concat(locationsByType[i]);
+        }
+
+    } else {
+
+        reportType = typeOfReport.toLowerCase();
+
+        //get reports of given type
+        if (locationsByType[reportType] === 0 || 
+            locationsByType[reportType] === undefined ) {
+                return [] ;      //no data 
+        }
+    
+        reportList = locationsByType[reportType];
+    }  
 
     //gather reports by zip
-    let reportList = locationsByType[reportType];
     let reportsByZip = {};  
     for (let i=0; i<reportList.length; i++) {
         if ( reportList[i].zip.toLowerCase() in reportsByZip )  {
@@ -41,7 +56,7 @@ const sortReportsByZip = (locationsByType, typeOfReport) => {
 
 }
 
-const graphIncidentZips = (reportType, getLocationsByType) => {
+const graphIncidentZips = (reportType, graphTitle, getLocationsByType) => {
 
     let locationsByType = JSON.parse( getLocationsByType() );
 
@@ -58,11 +73,10 @@ const graphIncidentZips = (reportType, getLocationsByType) => {
 
     return (
       <div  className="chartBox">
-         <BarChart graphTitle="Hazards by Zip codes" 
+         <BarChart graphTitle={graphTitle}
                 labels={JSON.stringify(labels)} 
                 dataPoints={JSON.stringify(incidentCnts)} />
       </div>
-
     )
 }
 
@@ -73,11 +87,12 @@ export default function GraphByZip (props) {
     }
 
     let getLocationsByType = props.getLocationsByTypeCallback;
+    let graphTitle=props.graphTitle;
     let reportType = props.reportType;
 
     return (
         <div>
-            {graphIncidentZips(reportType, getLocationsByType)}
+            {graphIncidentZips(reportType, graphTitle, getLocationsByType)}
         </div>
     )
 }
