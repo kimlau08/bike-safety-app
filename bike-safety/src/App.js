@@ -34,7 +34,6 @@ export default class App extends Component {
       axiosDataLoaded: false,
 
       reportsByType: {},
-
       currentLocation: "Austin, TX", //city or zip
 
       //default query parms
@@ -42,8 +41,9 @@ export default class App extends Component {
       cityState:    "Austin, TX",
       zip:           "",
       proximity_sq:  100,
-      keyword:       ""
+      keyword:       "",
 
+      containerOnDisplay: "homeContainer"
     }
 
     this.getBikeWiseData=this.getBikeWiseData.bind(this);
@@ -58,6 +58,9 @@ export default class App extends Component {
 
     this.graphIncidentTypes=this.graphIncidentTypes.bind(this);
     this.displayMostRecentThefts=this.displayMostRecentThefts.bind(this);
+
+    this.swapContainerOnDisplay=this.swapContainerOnDisplay.bind(this);
+
   }
 
  
@@ -280,6 +283,9 @@ export default class App extends Component {
 
   }
 
+  swapContainerOnDisplay(toContainerId, inputProps) {   
+
+  }
 
   navBar() {
     return (
@@ -301,6 +307,7 @@ export default class App extends Component {
                   <Link to={{
                       pathname: "/Filters",
                       customQueryCallback: this.customQuery,
+                      swapDisplayCallback: this.swapContainerOnDisplay,
                     }}>Filters</Link>
                 </li>
 
