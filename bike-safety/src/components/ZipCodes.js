@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import '../App.css';
 
 import GraphByZip from './GraphByZip';
+import ImageRow from './ImageRow';
+import genericImg from '../assets/bike-trail.jpg'
 
 export default class ZipCodes extends Component {
     constructor(props) {
@@ -13,6 +16,63 @@ export default class ZipCodes extends Component {
         }
     }
     
+    displayMostRecentIncidents() {
+
+        let reportsByType = this.props.location.getReportsByTypeCallback();
+
+        if ( reportsByType === JSON.stringify({}) ) {
+        return <div></div>      //no data to display
+        }
+
+        reportsByType = JSON.parse(reportsByType);
+
+        let incidentReports=[];
+        //All types are needed. concat them
+        for (let i in reportsByType)  {
+            incidentReports = incidentReports.concat( reportsByType[i] );
+        }
+
+        //sort by occurred_at date
+        incidentReports.sort(function(a, b) {
+            return b.occurred_at - a.occurred_at;
+        })
+
+        //many reports do not come with images. use generic images 
+        let incidentObjList=[];
+        for (let i=0; i<incidentReports.length; i++) {
+            if (incidentReports[i].media.image_url !== null) {
+
+                let description="";
+                if ("description" in incidentReports[i]) {
+
+                    description = incidentReports[i].description;
+
+                    //Take only first 30 words.
+                    let maxLength=30;
+                    let descArray = description.trim().split(" ").slice(0, maxLength);
+                    description = descArray.join(' ');
+
+                }
+
+                incidentObjList.push(  {bikeImg: genericImg,
+                            reportTitle: incidentReports[i].title,
+                            description: description });
+
+                if ( incidentObjList.length >= 3 ) {   //only need 3 reports
+                    break;
+                }
+            }     
+        }
+
+        return (
+        <div className="bikeImgRow">
+
+            <ImageRow imgObjList={JSON.stringify(incidentObjList)} />
+
+        </div>
+        )
+    }
+
     render() {
 
         if (this.props.location.getLocationsByTypeCallback === undefined) {
@@ -37,6 +97,9 @@ export default class ZipCodes extends Component {
                 graphTitle={'All reports by Zip codes'}
                 getLocationsByTypeCallback={this.props.location.getLocationsByTypeCallback}
                 />
+
+            
+            {this.displayMostRecentIncidents()}
 
             </div>
         )

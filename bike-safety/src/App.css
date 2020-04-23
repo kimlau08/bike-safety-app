@@ -35,7 +35,6 @@ border: solid 1px green;
       width: 40%;
       height: auto;
 
-  border: solid 1px red;
     }
 
   .bikeImgRow {
@@ -46,6 +45,7 @@ border: solid 1px green;
     flex-direction: row;
     justify-content: space-evenly;
 
+    margin-top: 15px;
 border: solid 1px brown;
   }
     .reportTitle {
@@ -57,6 +57,8 @@ border: solid 1px brown;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      
+border: solid 1px lime;
     }
 
       .bikeImg {
