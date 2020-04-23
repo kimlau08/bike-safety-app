@@ -14,7 +14,7 @@ export default class ImageRow extends Component {
 
         return (
           <div className="bikeImgCard">
-      {/* <p className="reportTitle">{imgCardInfo.reportTitle}</p> */}
+            <p className="reportTitle">{imgCardInfo.reportTitle}</p>
             <img className="bikeImg" src={imgCardInfo.bikeImg} />
             <p className="descriptionTxt">{desc}</p>
           </div>
