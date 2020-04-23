@@ -35,5 +35,6 @@
 #### CrashSort.js
 #### ZipCodes.js
 #
-# Other
-# React bar chart package will be used (react-chartjs-2  chart.js)
+# Technologies used
+### Redux to maintain city proximity of queried data (upper right of home screen)
+### React bar chart package will be used (react-chartjs-2  chart.js)
