@@ -81,13 +81,17 @@ export default class Login extends Component {
 
             //Redirect back to root (App component)
             this.setState( { redirectToHome: true } ); 
+            
+            //swap back to the Home component display before redirect
+            this.props.location.swapDisplayCallback("homeContainer", this.props);
         }
     }
 
 
     componentDidMount() {
         
-        this.setState(this.state); //re-render to clear the Home component display
+ //       this.setState(this.state); //re-render to clear the Home component display
+        
     }
 
     render() {
@@ -96,8 +100,14 @@ export default class Login extends Component {
             return <div></div>    //no callback to make query
         }
 
+        let toContainerId="filterContainer";
+        if (! this.state.redirectToHome) {  //do not overwrite display setup by filter form if redirecting away 
+            
+            this.props.location.swapDisplayCallback(toContainerId, this.props);
+        }
+
         return (
-            <div id="FilterContainer">
+            <div id={toContainerId}>
                 
                 {this.state.redirectToHome &&
                         <Redirect to='/Home' />    //route back to root (App component) depending on state

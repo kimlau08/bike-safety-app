@@ -60,6 +60,8 @@ export default class App extends Component {
     this.displayMostRecentThefts=this.displayMostRecentThefts.bind(this);
 
     this.swapContainerOnDisplay=this.swapContainerOnDisplay.bind(this);
+    this.setContainerOnDisplay=this.setContainerOnDisplay.bind(this);
+
 
   }
 
@@ -283,6 +285,10 @@ export default class App extends Component {
 
   }
 
+  setContainerOnDisplay(container) {   //Do not cause render
+    this.state.containerOnDisplay = container;   
+  }
+
   swapContainerOnDisplay(toContainerId, inputProps) {   
 
 
@@ -373,15 +379,20 @@ export default class App extends Component {
   render() {
     return (
       <div className="App">
-
+      
         {this.navBar()}
+
         <Router>
           <Redirect to='/Home' />  
         </Router>
 
-        {this.graphIncidentTypes()}
-        {this.displayMostRecentThefts()}
+        <div id="homeContainer">
+          {this.graphIncidentTypes()}
+          {this.displayMostRecentThefts()}
+
+        </div>
       </div>
+
     );
   }
 }
