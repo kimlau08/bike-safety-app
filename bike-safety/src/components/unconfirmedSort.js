@@ -4,7 +4,7 @@ import '../App.css';
 
 import GraphByZip from './GraphByZip';
 import ImageRow from './ImageRow';
-import genericImg from '../assets/bike-trail.jpg'
+import genericImg from '../assets/zip.webp'
 
 export default class UnconfirmedSort extends Component {
     constructor(props) {

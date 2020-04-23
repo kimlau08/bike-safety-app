@@ -9,7 +9,7 @@ import BarChart from './components/BarChart';
 import Home from './components/Home';
 import HazardSort from './components/HazardSort';
 import TheftSort from './components/TheftSort';
-import unconfirmedSort from './components/unconfirmedSort'
+import UnconfirmedSort from './components/UnconfirmedSort'
 import ZipCodes from './components/ZipCodes';
 import Filters from './components/Filters';
 import ImageRow from './components/ImageRow';
@@ -483,7 +483,7 @@ this.simultaneousRequests(urls);
 
                 <li>
                   <Link to={{
-                      pathname: "/unconfirmedSort",
+                      pathname: "/UnconfirmedSort",
                       getLocationsByTypeCallback: this.getLocationsByType,
                       getReportsByTypeCallback : this.getReportsByType,
                       swapDisplayCallback: this.swapContainerOnDisplay,
@@ -520,7 +520,7 @@ this.simultaneousRequests(urls);
 
               <Route path="/TheftSort" component={TheftSort} />
 
-              <Route path="/unconfirmedSort" component={unconfirmedSort} />
+              <Route path="/UnconfirmedSort" component={UnconfirmedSort} />
 
               <Route path="/ZipCodes" component={ZipCodes} />
 
