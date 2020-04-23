@@ -43,15 +43,16 @@ export default class ZipCodes extends Component {
             if (incidentReports[i].media.image_url !== null) {
 
                 let description="";
-                if ("description" in incidentReports[i]) {
+                if (incidentReports[i].description !== null) {
 
                     description = incidentReports[i].description;
 
-                    //Take only first 30 words.
-                    let maxLength=30;
-                    let descArray = description.trim().split(" ").slice(0, maxLength);
-                    description = descArray.join(' ');
-
+                    if (description.length > 0) {
+                        //Take only first 30 words.
+                        let maxLength=30;
+                        let descArray = description.trim().split(" ").slice(0, maxLength);
+                        description = descArray.join(' ');
+                    }
                 }
 
                 incidentObjList.push(  {bikeImg: genericImg,

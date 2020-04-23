@@ -6,7 +6,7 @@ import GraphByZip from './GraphByZip';
 import ImageRow from './ImageRow';
 import genericImg from '../assets/bike-trail.jpg'
 
-export default class CrashSort extends Component {
+export default class UnconfirmedSort extends Component {
     constructor(props) {
         super(props);
 
@@ -16,7 +16,7 @@ export default class CrashSort extends Component {
         }
     }
     
-    displayMostRecentCrash() {
+    displayMostRecentUnconfirmed() {
 
         let reportsByType = this.props.location.getReportsByTypeCallback();
 
@@ -26,34 +26,35 @@ export default class CrashSort extends Component {
 
         reportsByType = JSON.parse(reportsByType);
 
-        let crashReports=reportsByType["crash"]; 
+        let unconfirmedReports=reportsByType["unconfirmed"]; 
 
         //sort by occurred_at date
-        crashReports.sort(function(a, b) {
+        unconfirmedReports.sort(function(a, b) {
             return b.occurred_at - a.occurred_at;
         })
 
-        //crash reports do not come with images. use generic images 
-        let crashObjList=[];
-        for (let i=0; i<crashReports.length; i++) {
+        //unconfirmed reports do not come with images. use generic images 
+        let unconfirmedObjList=[];
+        for (let i=0; i<unconfirmedReports.length; i++) {
+
             let description="";
-            if (crashReports[i].description !== null) {
+            if (unconfirmedReports[i].description !== null) {
 
-                description = crashReports[i].description;
+                description = unconfirmedReports[i].description;
 
-                //Take only first 30 words.
                 if (description.length > 0) {
+                    //Take only first 30 words.
                     let maxLength=30;
                     let descArray = description.trim().split(" ").slice(0, maxLength);
                     description = descArray.join(' ');
                 }
             }
 
-            crashObjList.push(  {bikeImg: genericImg,
-                        reportTitle: crashReports[i].title,
+            unconfirmedObjList.push(  {bikeImg: genericImg,
+                        reportTitle: unconfirmedReports[i].title,
                         description: description });
 
-            if ( crashObjList.length >= 3 ) {   //only need 3 reports
+            if ( unconfirmedObjList.length >= 3 ) {   //only need 3 reports
                 break;
             }
         }
@@ -61,7 +62,7 @@ export default class CrashSort extends Component {
         return (
         <div className="bikeImgRow">
 
-            <ImageRow imgObjList={JSON.stringify(crashObjList)} />
+            <ImageRow imgObjList={JSON.stringify(unconfirmedObjList)} />
 
         </div>
         )
@@ -73,7 +74,7 @@ export default class CrashSort extends Component {
             return <div></div>    //no callback to get data
         }
 
-        let toContainerId="crashSortContainer";
+        let toContainerId="unconfirmedSortContainer";
         if (! this.state.redirectToHome) {  //do not overwrite display setup by filter form if redirecting away 
             
             this.props.location.swapDisplayCallback(toContainerId, this.props);
@@ -87,11 +88,11 @@ export default class CrashSort extends Component {
                 }
 
             <GraphByZip  
-                reportType={'crash'} 
-                graphTitle={'Crashes by Zip codes'}
+                reportType={'unconfirmed'} 
+                graphTitle={'Unconfirms by Zip codes'}
                 getLocationsByTypeCallback={this.props.location.getLocationsByTypeCallback} />
 
-            {this.displayMostRecentCrash()}
+            {this.displayMostRecentUnconfirmed()}
 
             </div>
         )

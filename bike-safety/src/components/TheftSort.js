@@ -33,32 +33,29 @@ export default class TheftSort extends Component {
             return b.occurred_at - a.occurred_at;
         })
 
-        //theft reports do not come with images. use generic images 
+        //use generic images for sample descriptions.
         let theftObjList=[];
         for (let i=0; i<theftReports.length; i++) {
-            if (theftReports[i].media.image_url !== null) {
+            let description="";
+            if (theftReports[i].description !== null) {
 
-                let description="";
-                if ("description" in theftReports[i]) {
+                description = theftReports[i].description;
 
-                    description = theftReports[i].description;
-
-                    if (description.length > 0) {
-                        //Take only first 30 words.
-                        let maxLength=30;
-                        let descArray = description.trim().split(" ").slice(0, maxLength);
-                        description = descArray.join(' ');                        
-                    }
+                if (description.length > 0) {
+                    //Take only first 30 words.
+                    let maxLength=30;
+                    let descArray = description.trim().split(" ").slice(0, maxLength);
+                    description = descArray.join(' ');                        
                 }
+            }
 
-                theftObjList.push(  {bikeImg: genericImg,
-                            reportTitle: theftReports[i].title,
-                            description: description });
+            theftObjList.push(  {bikeImg: genericImg,
+                        reportTitle: theftReports[i].title,
+                        description: description });
 
-                if ( theftObjList.length >= 3 ) {   //only need 3 reports
-                    break;
-                }
-            }     
+            if ( theftObjList.length >= 3 ) {   //only need 3 reports
+                break;
+            }
         }
 
         return (

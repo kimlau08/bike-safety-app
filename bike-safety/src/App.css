@@ -1,3 +1,11 @@
+html { 
+  background: url('./assets/waterfront.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 
 ul {
   list-style-type:none;
@@ -57,7 +65,7 @@ border: solid 1px brown;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      
+
 border: solid 1px lime;
     }
 
@@ -87,7 +95,7 @@ border: solid 1px lime;
 border: solid 1px lime;
 }
   .menuBar {
-    width: 600px;
+    width: 700px;
 
     display: flex;
     flex-direction: row;
@@ -111,9 +119,6 @@ border: solid 1px red;
     font-style: italic;
   }
 
-  #homeContainer {
-    background-color: white;
-  }
 
 
   

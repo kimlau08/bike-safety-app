@@ -4,18 +4,16 @@ import './App.css';
 import {Route, Link, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import {Bar} from 'react-chartjs-2';
 
 import BarChart from './components/BarChart';
 import Home from './components/Home';
 import HazardSort from './components/HazardSort';
 import TheftSort from './components/TheftSort';
-import CrashSort from './components/CrashSort';
+import unconfirmedSort from './components/unconfirmedSort'
 import ZipCodes from './components/ZipCodes';
 import Filters from './components/Filters';
 import ImageRow from './components/ImageRow';
 import config from './config/config';
-import { findAllInRenderedTree } from 'react-dom/test-utils';
 
 
 const reportTypes = [
@@ -485,11 +483,11 @@ this.simultaneousRequests(urls);
 
                 <li>
                   <Link to={{
-                      pathname: "/CrashSort",
+                      pathname: "/unconfirmedSort",
                       getLocationsByTypeCallback: this.getLocationsByType,
                       getReportsByTypeCallback : this.getReportsByType,
                       swapDisplayCallback: this.swapContainerOnDisplay,
-                    }}>Crash Sort</Link>
+                    }}>Unconfirmed Cases</Link>
                 </li>
 
                 <li>
@@ -522,7 +520,7 @@ this.simultaneousRequests(urls);
 
               <Route path="/TheftSort" component={TheftSort} />
 
-              <Route path="/CrashSort" component={CrashSort} />
+              <Route path="/unconfirmedSort" component={unconfirmedSort} />
 
               <Route path="/ZipCodes" component={ZipCodes} />
 

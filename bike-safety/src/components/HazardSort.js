@@ -36,28 +36,27 @@ export default class HazardSort extends Component {
         //hazard reports do not come with images. use generic images 
         let hazardObjList=[];
         for (let i=0; i<hazardReports.length; i++) {
-            if (hazardReports[i].media.image_url !== null) {
 
-                let description="";
-                if ("description" in hazardReports[i]) {
+            let description="";
+            if (hazardReports[i].description !== null) {
 
-                    description = hazardReports[i].description;
+                description = hazardReports[i].description;
 
+                if (description.length > 0) {
                     //Take only first 30 words.
                     let maxLength=30;
                     let descArray = description.trim().split(" ").slice(0, maxLength);
                     description = descArray.join(' ');
-
                 }
+            }
 
-                hazardObjList.push(  {bikeImg: genericImg,
-                            reportTitle: hazardReports[i].title,
-                            description: description });
+            hazardObjList.push(  {bikeImg: genericImg,
+                        reportTitle: hazardReports[i].title,
+                        description: description });
 
-                if ( hazardObjList.length >= 3 ) {   //only need 3 reports
-                    break;
-                }
-            }     
+            if ( hazardObjList.length >= 3 ) {   //only need 3 reports
+                break;
+            }
         }
 
         return (
