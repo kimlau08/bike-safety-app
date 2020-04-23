@@ -36,17 +36,20 @@ export default class TheftSort extends Component {
         //use generic images for sample descriptions.
         let theftObjList=[];
         for (let i=0; i<theftReports.length; i++) {
+
             let description="";
-            if (theftReports[i].description !== null) {
+            if (theftReports[i].description === null ||
+                theftReports[i].description.length <= 0) {
+                    continue;
+            }
 
-                description = theftReports[i].description;
+            description = theftReports[i].description;
 
-                if (description.length > 0) {
-                    //Take only first 30 words.
-                    let maxLength=30;
-                    let descArray = description.trim().split(" ").slice(0, maxLength);
-                    description = descArray.join(' ');                        
-                }
+            if (description.length > 0) {
+                //Take only first 30 words.
+                let maxLength=30;
+                let descArray = description.trim().split(" ").slice(0, maxLength);
+                description = descArray.join(' ');                        
             }
 
             theftObjList.push(  {bikeImg: genericImg,

@@ -38,17 +38,17 @@ export default class UnconfirmedSort extends Component {
         for (let i=0; i<unconfirmedReports.length; i++) {
 
             let description="";
-            if (unconfirmedReports[i].description !== null) {
-
-                description = unconfirmedReports[i].description;
-
-                if (description.length > 0) {
-                    //Take only first 30 words.
-                    let maxLength=30;
-                    let descArray = description.trim().split(" ").slice(0, maxLength);
-                    description = descArray.join(' ');
-                }
+            if (unconfirmedReports[i].description === null ||
+                unconfirmedReports[i].description.length <= 0) {
+                continue;
             }
+
+            description = unconfirmedReports[i].description;
+
+            //Take only first 30 words.
+            let maxLength=30;
+            let descArray = description.trim().split(" ").slice(0, maxLength);
+            description = descArray.join(' ');
 
             unconfirmedObjList.push(  {bikeImg: genericImg,
                         reportTitle: unconfirmedReports[i].title,

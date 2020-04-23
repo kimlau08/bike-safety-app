@@ -38,17 +38,17 @@ export default class HazardSort extends Component {
         for (let i=0; i<hazardReports.length; i++) {
 
             let description="";
-            if (hazardReports[i].description !== null) {
-
-                description = hazardReports[i].description;
-
-                if (description.length > 0) {
-                    //Take only first 30 words.
-                    let maxLength=30;
-                    let descArray = description.trim().split(" ").slice(0, maxLength);
-                    description = descArray.join(' ');
-                }
+            if (hazardReports[i].description === null  ||
+                hazardReports[i].description.length <= 0) {
+                continue
             }
+
+            description = hazardReports[i].description;
+
+            //Take only first 30 words.
+            let maxLength=30;
+            let descArray = description.trim().split(" ").slice(0, maxLength);
+            description = descArray.join(' ');
 
             hazardObjList.push(  {bikeImg: genericImg,
                         reportTitle: hazardReports[i].title,

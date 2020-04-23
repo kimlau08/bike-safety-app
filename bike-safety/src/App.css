@@ -17,11 +17,9 @@ a:active {
   font-size: 20px;
   color: cadetblue;
 }
-
 textarea {
   resize: none;
 }
-
 
 
 /******************************************************************
@@ -36,7 +34,6 @@ textarea {
   display: flex;
   flex-direction: row;
   justify-content: center;
-border: solid 1px green;
   
   }
     .graphChart {
@@ -54,7 +51,6 @@ border: solid 1px green;
     justify-content: space-evenly;
 
     margin-top: 15px;
-border: solid 1px brown;
   }
     .reportTitle {
       margin: 5 0  auto;
@@ -92,7 +88,6 @@ border: solid 1px lime;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-border: solid 1px lime;
 }
   .menuBar {
     width: 700px;
@@ -104,7 +99,6 @@ border: solid 1px lime;
     color: cornflowerblue;
     font-weight: bold;
     font-style: italic;
-border: solid 1px red;
   }
   .currentUserId {
     width: 100px;
@@ -139,7 +133,7 @@ border: solid 1px red;
   border-radius: 10px;
 
   padding: 20px 20px;
-  
+  background-color: white;
 }
 
 
