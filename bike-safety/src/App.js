@@ -58,7 +58,7 @@ export default class App extends Component {
     this.navBar=this.navBar.bind(this);
 
     this.createQueryURL=this.createQueryURL.bind(this);
-this.createMultipleURLs=this.createMultipleURLs.bind(this);
+    this.createMultipleURLs=this.createMultipleURLs.bind(this);
 
     this.stackReportsByType=this.stackReportsByType.bind(this);
     this.stackZipDataByType=this.stackZipDataByType.bind(this);
@@ -196,7 +196,7 @@ this.createMultipleURLs=this.createMultipleURLs.bind(this);
 
     let theftReports=this.state.reportsByType["theft"]; 
 
-    //sort by update date
+    //sort by occurred_at date
     theftReports.sort(function(a, b) {
       return b.occurred_at - a.occurred_at;
     })
@@ -218,7 +218,7 @@ this.createMultipleURLs=this.createMultipleURLs.bind(this);
     return (
       <div className="bikeImgRow">
 
-        <ImageRow theftImgList={JSON.stringify(theftImg)} />
+        <ImageRow imgObjList={JSON.stringify(theftImg)} />
 
       </div>
     )

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import GraphByZip from './GraphByZip';
+import ImageRow from './ImageRow';
+import genericImg from '../assets/bike-trail.jpg'
 
 export default class HazardSort extends Component {
     constructor(props) {
@@ -13,6 +15,44 @@ export default class HazardSort extends Component {
         }
     }
     
+    displayMostRecentHazards() {
+
+        let reportsByType = this.props.location.getReportsByTypeCallback();
+
+        if ( JSON.stringify(reportsByType) === JSON.stringify({}) ) {
+        return <div></div>      //no data to display
+        }
+
+        let hazardReports=reportsByType["hazard"]; 
+
+        //sort by occurred_at date
+        hazardReports.sort(function(a, b) {
+            return b.occurred_at - a.occurred_at;
+        })
+
+        //hazard reports do not come with images. use generic images 
+        let hazardObjList=[];
+        for (let i=0; i<hazardReports.length; i++) {
+            if (hazardReports[i].media.image_url !== null) {
+
+                hazardObjList.push(  {bikeImg: genericImg,
+                                reportTitle: hazardReports[i].title });
+
+                if ( hazardObjList.length >= 3 ) {   //only need 3 reports
+                break;
+                }
+            }     
+        }
+
+        return (
+        <div className="bikeImgRow">
+
+            <ImageRow imgObjList={JSON.stringify(hazardObjList)} />
+
+        </div>
+        )
+    }
+        
     render() {
 
         if (this.props.location.getLocationsByTypeCallback === undefined) {

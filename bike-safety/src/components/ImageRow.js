@@ -17,11 +17,11 @@ export default class ImageRow extends Component {
 
     render () {
 
-        if (this.props.theftImgList === undefined) {
+        if (this.props.imgObjList === undefined) {
             return <div></div>
         }
 
-        let theftImg=JSON.parse(this.props.theftImgList);
+        let theftImg=JSON.parse(this.props.imgObjList);
 
         return (
             <div className="bikeImgRow">
