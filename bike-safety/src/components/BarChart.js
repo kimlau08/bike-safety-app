@@ -36,7 +36,7 @@ export default function BarChart (props) {
                     },
 
                     legend:{
-                    display:true,
+                    display:false,
                     position:'right'
                     }
                 }}

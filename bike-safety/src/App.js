@@ -14,6 +14,7 @@ import CrashSort from './components/CrashSort';
 import ZipCodes from './components/ZipCodes';
 import Filters from './components/Filters';
 import ImageRow from './components/ImageRow';
+import config from './config/config';
 import { findAllInRenderedTree } from 'react-dom/test-utils';
 
 
@@ -69,13 +70,13 @@ export default class App extends Component {
     this.swapContainerOnDisplay=this.swapContainerOnDisplay.bind(this);
     this.setContainerOnDisplay=this.setContainerOnDisplay.bind(this);
   
-    this.getReportsByType=this.getReportsByType.bind(this);
+    this.getLocationsByType=this.getLocationsByType.bind(this);
 
 
   }
 
-  getReportsByType() {
-    return JSON.stringify(this.state.reportsByType);
+  getLocationsByType() {
+    return JSON.stringify(this.state.locationsByType);
   }
 
   initializeReportStacks() {
@@ -374,9 +375,11 @@ export default class App extends Component {
 
   async getZipData( feature ) {
 
+    let geocodesAPI=config.REACT_APP_BIG_DATA_CLOUD_KEY;
+
     let longitude=feature.geometry.coordinates[0];  let latitude=feature.geometry.coordinates[1]; 
-    let queryURL = 
-      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
+    let queryURL=
+      `https://api.bigdatacloud.net/data/reverse-geocode?latitude=${latitude}&longitude=${longitude}&localityLanguage=en&key=${geocodesAPI}`
 
     try {
       const response=await axios.get(queryURL);
@@ -407,7 +410,7 @@ export default class App extends Component {
     //get a large amount of reports and locations. chained to 2nd API to get zip code info
 
 
-    let limit=100;
+    let limit=200;
     let queryPrefix="https://bikewise.org:443/api/v2/locations?"+`limit=${limit}`
 
     let queryURL = this.createQueryURL( FilterObj, queryPrefix );
@@ -430,7 +433,7 @@ export default class App extends Component {
     //get a list of detailed incident report 
 
     let queryPrefix="https://bikewise.org:443/api/v2/incidents?page=1";
-    let queryURL = this.createQueryURL( FilterObj );
+    let queryURL = this.createQueryURL( FilterObj, queryPrefix );
     try {
       const response=await axios.get(queryURL);
       console.log("Bikewise report response:", response.data.incidents);
@@ -460,7 +463,7 @@ export default class App extends Component {
                 <li>
                   <Link to={{
                       pathname: "/HazardSort",
-                      getReportsByTypeCallBack: this.getReportsByType,
+                      getLocationsByTypeCallback: this.getLocationsByType,
                       swapDisplayCallback: this.swapContainerOnDisplay,
                     }}>Hazard Sort</Link>
                 </li>

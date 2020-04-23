@@ -10,20 +10,20 @@ export default class HazardSort extends Component {
             redirectToHome: false 
         }
 
-        this.sortHazardReportByZip=this.sortHazardReportByZip.bind(this);
+        this.sortReportsByZip=this.sortReportsByZip.bind(this);
     }
 
-    sortReportsByZip(reportsByType, typeOfReport) {
+    sortReportsByZip(locationsByType, typeOfReport) {
 
         //get reports of given type
         let reportType = typeOfReport.toLowerCase();
-        if (reportsByType[reportType] === 0 || 
-            reportsByType[reportType] === undefined ) {
+        if (locationsByType[reportType] === 0 || 
+            locationsByType[reportType] === undefined ) {
                 return [] ;      //no data 
             }
 
         //gather reports by zip
-        let reportList = reportsByType[reportType];
+        let reportList = locationsByType[reportType];
         let reportsByZip = {};  
         for (let i=0; i<reportList.length; i++) {
             if ( reportList[i].type.toLowerCase() in reportsByZip )  {
@@ -43,13 +43,13 @@ export default class HazardSort extends Component {
 
     render() {
 
-        if (this.props.location.getReportsByTypeCallBack === undefined) {
+        if (this.props.location.getLocationsByTypeCallback === undefined) {
             return <div></div>    //no callback to get data
         }
 
-        let reportsByType = JSON.parse(this.props.location.getReportsByTypeCallBack());
+        let locationsByType = JSON.parse(this.props.location.getLocationsByTypeCallback());
 
-        let hazardReports = this.sortHazardReportByZip (reportsByType);
+        let hazardReports = this.sortReportsByZip (locationsByType, "hazard");
 
         let toContainerId="hazardSortContainer";
         if (! this.state.redirectToHome) {  //do not overwrite display setup by filter form if redirecting away 
