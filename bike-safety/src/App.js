@@ -37,8 +37,8 @@ export default class App extends Component {
       locationsAndZips: [],
       axiosDataLoaded: false,
 
-      locationsByType: {},
-      reportsByType: {},
+      locationsByType: {},    //object of arrays, with geocodes, zip and type of reports
+      reportsByType: {},      //objects of arrays of detailed reports
       currentLocation: "Austin, TX", //city or zip
 
       //default query parms
@@ -52,7 +52,7 @@ export default class App extends Component {
     }
 
     this.getBikeWiseData=this.getBikeWiseData.bind(this);
-    this.getBikeWiseReports=this.getBikeWiseReports.bind(this);
+ //   this.getBikeWiseReports=this.getBikeWiseReports.bind(this);
     this.getZipData=this.getZipData.bind(this);
     this.customQuery=this.customQuery.bind(this);
     this.navBar=this.navBar.bind(this);
@@ -269,6 +269,7 @@ this.createMultipleURLs=this.createMultipleURLs.bind(this);
 
   createMultipleURLs ( FilterObj ) {
 
+    //create an API request for each report type
     let url=this.createQueryURL( FilterObj );
     let urls=[];
     for ( let i=0; i<reportTypes.length; i++) {
@@ -285,6 +286,7 @@ this.createMultipleURLs=this.createMultipleURLs.bind(this);
   }
 
   simultaneousRequests(urls) {
+    //get detailed reports of all incident types
 
     this.setState( { response : []}); //clear previous data
 
@@ -428,23 +430,23 @@ this.simultaneousRequests(urls);
     }
   }
 
-  async getBikeWiseReports( FilterObj ) {
-    //get a list of detailed incident report 
+// async getBikeWiseReports( FilterObj ) {
+//   //get a list of detailed incident report 
 
-    let queryPrefix="https://bikewise.org:443/api/v2/incidents?page=1";
-    let queryURL = this.createQueryURL( FilterObj, queryPrefix );
-    try {
-      const response=await axios.get(queryURL);
-      console.log("Bikewise report response:", response.data.incidents);
+//   let queryPrefix="https://bikewise.org:443/api/v2/incidents?page=1";
+//   let queryURL = this.createQueryURL( FilterObj, queryPrefix );
+//   try {
+//     const response=await axios.get(queryURL);
+//     console.log("Bikewise report response:", response.data.incidents);
 
-      this.setState({response: response.data.incidents})
+//     this.setState({response: response.data.incidents})
 
-      this.stackReportsByType(response);
+//     this.stackReportsByType(response);
 
-    } catch (e) {
-      console.error(e);
-    }
-  }
+//   } catch (e) {
+//     console.error(e);
+//   }
+// }
 
   navBar() {
     return (
