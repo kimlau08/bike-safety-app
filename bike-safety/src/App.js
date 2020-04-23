@@ -13,6 +13,7 @@ import TheftSort from './components/TheftSort';
 import CrashSort from './components/CrashSort';
 import ZipCodes from './components/ZipCodes';
 import Filters from './components/Filters';
+import ImageRow from './components/ImageRow';
 import { findAllInRenderedTree } from 'react-dom/test-utils';
 
 
@@ -131,14 +132,6 @@ export default class App extends Component {
     )
   }
 
-  displayImgCard(imgCardInfo) {
-    return (
-      <div className="bikeImgCard">
-        <p className="reportTitle">{imgCardInfo.reportTitle}</p>
-        <img className="bikeImg" src={imgCardInfo.bikeImg} />
-      </div>
-    )
-  }
 
   displayMostRecentThefts() {
 
@@ -169,7 +162,9 @@ export default class App extends Component {
 
     return (
       <div className="bikeImgRow">
-          {theftImg.map( this.displayImgCard ) }
+
+        <ImageRow theftImgList={JSON.stringify(theftImg)} />
+
       </div>
     )
   }
@@ -177,7 +172,6 @@ export default class App extends Component {
 
   createQueryURL( FilterObj ) {
     
-
     //Default URL:
     // https://bikewise.org:443/api/v2/incidents?page=1&proximity=Dallas%2C%20TX&proximity_square=100
 
@@ -291,7 +285,6 @@ export default class App extends Component {
 
   swapContainerOnDisplay(toContainerId, inputProps) {   
 
-
     //turn on display of "from container" in props. display "to container" instead
 
     if (inputProps.location === undefined) { 
@@ -324,7 +317,6 @@ export default class App extends Component {
       this.setContainerOnDisplay(toContainerId); //save the to container 
 
     }
-
   }
 
   navBar() {
@@ -333,7 +325,12 @@ export default class App extends Component {
         <Router>
             <nav className="menu">
               <ul className="menuBar">
-                <li>  <Link to="/Home">Home</Link> </li>
+                <li>
+                  <Link to={{
+                      pathname: "/Home",
+                      swapDisplayCallback: this.swapContainerOnDisplay,
+                    }}>Home</Link>
+                </li>
 
                 <li> <Link to="/HazardSort">Hazard Sort</Link> </li>
 

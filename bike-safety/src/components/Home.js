@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-function Home () {
-    return (
-        <React.Fragment>
-        </React.Fragment>
-    )
+export default class Home extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render () {
+
+        if (this.props.location.swapDisplayCallback !== undefined) {
+            this.props.location.swapDisplayCallback("homeContainer", this.props);
+        }
+        return (
+            <React.Fragment>
+            </React.Fragment>
+        )
+
+    }
 }
-
-export default Home;
