@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import genericImg from '../assets/bike-trail.jpg';
 
 export default class ImageRow extends Component {
     constructor(props) {
@@ -7,10 +6,17 @@ export default class ImageRow extends Component {
     }
 
     displayImgCard(imgCardInfo) {
+
+        let desc = "";
+        if ( "description" in imgCardInfo) {
+          desc = imgCardInfo.description;
+        }
+
         return (
           <div className="bikeImgCard">
             <p className="reportTitle">{imgCardInfo.reportTitle}</p>
             <img className="bikeImg" src={imgCardInfo.bikeImg} />
+            <p className="descriptionTxt">{desc}</p>
           </div>
         )
     }
@@ -21,11 +27,11 @@ export default class ImageRow extends Component {
             return <div></div>
         }
 
-        let theftImg=JSON.parse(this.props.imgObjList);
+        let imgObjList=JSON.parse(this.props.imgObjList);
 
         return (
             <div className="bikeImgRow">
-              {theftImg.map( this.displayImgCard ) }
+              {imgObjList.map( this.displayImgCard ) }
             </div>
         )
 

@@ -71,12 +71,16 @@ export default class App extends Component {
     this.setContainerOnDisplay=this.setContainerOnDisplay.bind(this);
   
     this.getLocationsByType=this.getLocationsByType.bind(this);
+    this.getReportsByType=this.getReportsByType.bind(this);
 
 
   }
 
   getLocationsByType() {
     return JSON.stringify(this.state.locationsByType);
+  }
+  getReportsByType() {
+    return JSON.stringify(this.state.reportsByType);
   }
 
   initializeReportStacks() {
@@ -465,6 +469,7 @@ this.simultaneousRequests(urls);
                   <Link to={{
                       pathname: "/HazardSort",
                       getLocationsByTypeCallback: this.getLocationsByType,
+                      getReportsByTypeCallback : this.getReportsByType,
                       swapDisplayCallback: this.swapContainerOnDisplay,
                     }}>Hazard Sort</Link>
                 </li>
@@ -473,6 +478,7 @@ this.simultaneousRequests(urls);
                   <Link to={{
                       pathname: "/TheftSort",
                       getLocationsByTypeCallback: this.getLocationsByType,
+                      getReportsByTypeCallback : this.getReportsByType,
                       swapDisplayCallback: this.swapContainerOnDisplay,
                     }}>Theft Sort</Link>
                 </li>
@@ -481,6 +487,7 @@ this.simultaneousRequests(urls);
                   <Link to={{
                       pathname: "/CrashSort",
                       getLocationsByTypeCallback: this.getLocationsByType,
+                      getReportsByTypeCallback : this.getReportsByType,
                       swapDisplayCallback: this.swapContainerOnDisplay,
                     }}>Crash Sort</Link>
                 </li>
@@ -489,6 +496,7 @@ this.simultaneousRequests(urls);
                   <Link to={{
                       pathname: "/ZipCodes",
                       getLocationsByTypeCallback: this.getLocationsByType,
+                      getReportsByTypeCallback : this.getReportsByType,
                       swapDisplayCallback: this.swapContainerOnDisplay,
                     }}>Zip Codes</Link>
                 </li>

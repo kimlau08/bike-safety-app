@@ -65,6 +65,14 @@ border: solid 1px brown;
 
       }
 
+      .descriptionTxt {
+        width: 320px;
+        margin: -320px 10px;
+
+        font-weight: bold;
+        color: darkslategray;
+      }
+
 
 /******************************************************************
 *   Menu and Logo line

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import '../App.css';
 
 import GraphByZip from './GraphByZip';
 import ImageRow from './ImageRow';
@@ -19,9 +20,11 @@ export default class HazardSort extends Component {
 
         let reportsByType = this.props.location.getReportsByTypeCallback();
 
-        if ( JSON.stringify(reportsByType) === JSON.stringify({}) ) {
+        if ( reportsByType === JSON.stringify({}) ) {
         return <div></div>      //no data to display
         }
+
+        reportsByType = JSON.parse(reportsByType);
 
         let hazardReports=reportsByType["hazard"]; 
 
@@ -35,11 +38,24 @@ export default class HazardSort extends Component {
         for (let i=0; i<hazardReports.length; i++) {
             if (hazardReports[i].media.image_url !== null) {
 
+                let description="";
+                if ("description" in hazardReports[i]) {
+
+                    description = hazardReports[i].description;
+
+                    //Take only first 30 words.
+                    let maxLength=30;
+                    let descArray = description.trim().split(" ").slice(0, maxLength);
+                    description = descArray.join(' ');
+
+                }
+
                 hazardObjList.push(  {bikeImg: genericImg,
-                                reportTitle: hazardReports[i].title });
+                            reportTitle: hazardReports[i].title,
+                            description: description });
 
                 if ( hazardObjList.length >= 3 ) {   //only need 3 reports
-                break;
+                    break;
                 }
             }     
         }
@@ -76,6 +92,8 @@ export default class HazardSort extends Component {
                 reportType={'hazard'} 
                 graphTitle={'Hazards by Zip codes'}
                 getLocationsByTypeCallback={this.props.location.getLocationsByTypeCallback} />
+
+            {this.displayMostRecentHazards()}
 
             </div>
         )
