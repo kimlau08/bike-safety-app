@@ -10,7 +10,7 @@ const displayMostRecentThefts = (props) => {
     let reportsByType = props.location.getReportsByTypeCallback();
 
     if ( reportsByType === JSON.stringify({}) ) {
-    return <div></div>      //no data to display
+      return <div></div>      //no data to display
     }
 
     reportsByType = JSON.parse(reportsByType);
@@ -39,6 +39,7 @@ const displayMostRecentThefts = (props) => {
         let descArray = description.trim().split(" ").slice(0, maxLength);
         description = descArray.join(' ');                        
 
+        //add report info as obj
         theftObjList.push(  {bikeImg: genericImg,
                     reportTitle: theftReports[i].title,
                     description: description });
@@ -49,8 +50,10 @@ const displayMostRecentThefts = (props) => {
     }
 
     return (
+    
     <div className="bike-img-row">
 
+        {/* invoke ImageRow to display sample report descriptions */}
         <ImageRow imgObjList={JSON.stringify(theftObjList)} />
 
     </div>
@@ -68,7 +71,8 @@ export default function TheftSort (props) {
 
     return (
         <div id={toContainerId}>
-
+        
+        {/* invoke GraphByZip to render graph of incident by zip code */}
         <GraphByZip  
             reportType={'theft'} 
             graphTitle={'Thefts by Zip codes'}
