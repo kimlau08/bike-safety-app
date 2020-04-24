@@ -50,10 +50,11 @@ class App extends Component {
       containerOnDisplay: "home-container"
     }
 
+    this.navBar=this.navBar.bind(this);
+
     this.getBikeWiseData=this.getBikeWiseData.bind(this);
     this.getZipData=this.getZipData.bind(this);
     this.customQuery=this.customQuery.bind(this);
-    this.navBar=this.navBar.bind(this);
 
     this.createQueryURL=this.createQueryURL.bind(this);
     this.createMultipleURLs=this.createMultipleURLs.bind(this);
@@ -323,7 +324,6 @@ class App extends Component {
 
   componentDidMount() {
 
-    
     this.getBikeWiseData();      //report data
 
     let urls=this.createMultipleURLs(  );
@@ -397,7 +397,6 @@ class App extends Component {
 
       this.listZipDataByType(response);
 
-    
     } catch (e) {
       console.error(e);
     }
@@ -405,7 +404,6 @@ class App extends Component {
 
   async getBikeWiseData( FilterObj ) {
     //get a large amount of reports and locations. chained to 2nd API to get zip code info
-
 
     const limit=50;
     let queryPrefix="https://bikewise.org:443/api/v2/locations?"+`limit=${limit}`
@@ -427,9 +425,6 @@ class App extends Component {
         this.rdxSetProximity( FilterObj.city );
 
       }
-
-
-
 
     } catch (e) {
       console.error(e);
@@ -545,8 +540,6 @@ function mapStateToProps(state) {
   return {
 
     proximity: state.proximity,
-
-    filter: state.filter
 
   };
 }
