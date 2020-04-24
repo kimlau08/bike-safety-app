@@ -3,7 +3,7 @@ import '../App.css';
 
 import GraphByZip from './GraphByZip';
 import ImageRow from './ImageRow';
-import genericImg from '../assets/zip.webp'
+import genericImg from '../assets/unconfirmed.webp'
 
 const displayMostRecentUnconfirmed = (props) => {
 
