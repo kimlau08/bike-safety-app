@@ -16,7 +16,7 @@ export default function BarChart (props) {
         datasets: [
             {
                 label: graphTitle,
-                backgroundColor: 'rgba(75,192,192,1)',
+                backgroundColor: 'rgba(56, 170, 12,1)',
                 borderColor: 'rgba(0,0,0,1)',
                 borderWidth: 2,
                 data: dataPoints
