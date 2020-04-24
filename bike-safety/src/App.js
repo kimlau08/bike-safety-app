@@ -134,7 +134,7 @@ class App extends Component {
       return; //no data
     }
 
-    //create empty arrays of report types
+    //initialize reports object with empty arrays. each corresponds to a report type
     let reports = this.initializeReportlists(); 
 
     let resp=this.state.response;
@@ -185,6 +185,7 @@ class App extends Component {
     }
 
     return (
+      //invoke BarChart component to create graph
       <div  className="chart-box">
          <BarChart graphTitle="Incidents by Types" 
                 labels={JSON.stringify(labels)} 

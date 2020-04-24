@@ -41,6 +41,8 @@ CSS sections
 			
 			+ input-field defines input font style 
 
+=================================================================================================
+
 
 App.js (stateful)
 
@@ -117,7 +119,7 @@ App.js (stateful)
 	
 	+ listReportsByType - group the reports by report types
 		
-			+ create the reports object containing emtpty arrays
+			+ create the reports object containing empty arrays
 			
 			+ for each report in response, the receieved report data 
 				if the report type is in reports object 
