@@ -40,10 +40,128 @@ CSS sections
 			+ search-button positions and style button
 			
 			+ input-field defines input font style 
+
+
+App.js
+
+	+ Main data structure
+		+ response, locations - has response data from Ajax
+		+ locationsAndZips - has combined incident type, zip, geocodes and report id  
+		
+		+ locationsByType - object of arrays. Each object element is an array and corresponds to a type. (location data does not have report details)
+		+ reportsByType - object of arrays. Each object element is an array and corresponds to a type, (reports has details but only a limited number is available)
+
+	+ Main functions
+
+		+ componentDidMount
+			+ call getBikeWiseData to get report data using location endpoints
+			+ call simultaneousRequests to get sample report detailed descriptions
+			
+		+ render 
+		
+			+ render nav bar
+			
+			+ redirect to home component 
+			
+			+ render graph of incidenty by type (call graphIncidentTypes) 
+			
+			+ render sample theft report descriptions (call displayMostRecentThefts)
 	
-	+ 
+		+ navBar - generate nav bar at top of each page
+		
+			+ embed nav tag in Router tag
+			
+			+ embed ul and li tags in nav tag
+			
+				+ embed an Link in each li tag, one link for each of:
+						Home, Hazard, Theft, Unconfirmed, Zip, Filter components 
+			
+			+ embed Route tag in Switch tag
+			
+				+ embed a route in a Route tag. onl route for each of:
+						Home, Hazard, Theft, Unconfirmed, Zip, Filter components 
+						
+		
+		+ mapStateToProps 
+		
+			+ return state to be used by Redux in props, state include proximity to be displayed.
+	
+	
+		+ Query functions
+			+ getBikeWiseData - get bike incident reports
+				+ wait for incident data (features)				
+				+ launch a chained API request for reverse geocode lookup using getZipData
+				+ dispatch update of proximity string for display
 
+			+ getZipData - reverse geocode lookup to get zip code
+				+ wait for zip code 
+				
+				+ include zip in locationsAndZips state 
+		
+			+ simultaneousRequests - get sample report details 
+				+ use Promise.all to launch  an API request for each report type
+				
+				+ include reports in response state
+							
+	+ listZipDataByType - group the report locations by report types 
+		
+			+ create the locations object containing emtpty arrays
+			
+			+ for each location in locationsAndZips, the consolidated API response data 
+				if location's report type is in locations object 
+					push location into the locations array for that type
+				else 
+					put the location in a new array. assign to the object as an element
 
+			+ set locationsByType state
+	
+	+ listReportsByType - group the reports by report types
+		
+			+ create the reports object containing emtpty arrays
+			
+			+ for each report in response, the receieved report data 
+				if the report type is in reports object 
+					push report into the report array for that type
+				else 
+					put the location in a new array. assign to the object as an element
 
+			+ set reportsByType state 
+	
+	+ sortReportTypes - sort an object of arrays according to descending order of length
 
+			+ map reports object to array
+			
+			+ sort array using compare function
+			
+	+ graphIncidentTypes - create graph of incident counts by type
+	
+			+ create labels using the incident types from locationsByType object 
+			
+			+ create data points using length of each array in locationsByType object
+			
+			+ invoke BarChart component to create graph
+	
+	+ displayMostRecentThefts - display 3 sample theft report descriptions
+	
+			+ sort theft reports by occurred_at date. the most recent first
+			
+			+ invoke ImageRow componenet to display graph
 
+	
+
+components/Home.js (stateless)
+
+	+ display the home component by updating CSS display.
+	
+components/HazardSort.js (stateless)
+
+	+ display the hazard component by updating CSS display.
+	
+	+ invoke GraphByZip to render graph of incident by zip code  
+	
+	+ display sample report descriptions using displayMostRecentHazards
+	
+	+ Main functions
+	
+		+ displayMostRecentHazards
+		

@@ -65,7 +65,7 @@ export default function HazardSort (props)  {
 
     let toContainerId="hazard-sort-container";
         
-        props.location.swapDisplayCallback(toContainerId, props);
+    props.location.swapDisplayCallback(toContainerId, props);
 
     return (
         <div id={toContainerId}>
