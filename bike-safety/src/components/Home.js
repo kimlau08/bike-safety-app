@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 
-export default class Home extends Component {
-    constructor(props) {
-        super(props);
+export default function Home(props) {
+
+    if (props.location.swapDisplayCallback !== undefined) {
+        props.location.swapDisplayCallback("home-container", props);
     }
-
-    render () {
-
-        if (this.props.location.swapDisplayCallback !== undefined) {
-            this.props.location.swapDisplayCallback("home-container", this.props);
-        }
-        return (
-            <div>
-            </div>
-        )
-
-    }
+    return (
+        <div>
+        </div>
+    )
 }

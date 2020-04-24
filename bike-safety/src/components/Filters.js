@@ -70,9 +70,14 @@ export default class Filters extends Component {
 
         event.preventDefault();
 
-        if (filterObj.city === "" && filterObj.zip === "" ) {
-            document.getElementById('form-error-msg').innerHTML="Please enter a city or zip"
+        if ( (filterObj.city === "" && filterObj.zip === "") ||
+             (filterObj.city !== "" && filterObj.zip !== "")) {
+            document.getElementById('form-error-msg').innerHTML="Please enter either a city or zip"
         } else {
+
+            if (filterObj.zip !== "") {
+                filterObj.city = filterObj.zip;  //proximity filter takes either city or zip
+            }
 
             //launch query
             this.props.location.customQueryCallback(filterObj);
@@ -111,7 +116,7 @@ export default class Filters extends Component {
 
                     <label className="city-input">
                         City
-                        <input className="text-input" type="text" name="city" value={this.state.cityState} placeholder="Choose City, State" onChange={this.handleCityStateChange} />
+                        <input className="text-input" type="text" name="city" value={this.state.cityState} placeholder="Enter City, State" onChange={this.handleCityStateChange} />
                     </label>
 
                     <label className="zip-input">
