@@ -6,106 +6,89 @@ import GraphByZip from './GraphByZip';
 import ImageRow from './ImageRow';
 import genericImg from '../assets/zip.webp'
 
-export default class ZipCodes extends Component {
-    constructor(props) {
-        super(props);
+const displayMostRecentIncidents = (props) => {
 
-        this.state={
+    let reportsByType = props.location.getReportsByTypeCallback();
 
-            redirectToHome: false 
-        }
+    if ( reportsByType === JSON.stringify({}) ) {
+    return <div></div>      //no data to display
     }
-    
-    displayMostRecentIncidents() {
 
-        let reportsByType = this.props.location.getReportsByTypeCallback();
+    reportsByType = JSON.parse(reportsByType);
 
-        if ( reportsByType === JSON.stringify({}) ) {
-        return <div></div>      //no data to display
-        }
+    let incidentReports=[];
+    //All types are needed. concat them
+    for (let i in reportsByType)  {
+        incidentReports = incidentReports.concat( reportsByType[i] );
+    }
 
-        reportsByType = JSON.parse(reportsByType);
+    //sort by occurred_at date
+    incidentReports.sort(function(a, b) {
+        return b.occurred_at - a.occurred_at;
+    })
 
-        let incidentReports=[];
-        //All types are needed. concat them
-        for (let i in reportsByType)  {
-            incidentReports = incidentReports.concat( reportsByType[i] );
-        }
+    //many reports do not come with images. use generic images 
+    let incidentObjList=[];
+    for (let i=0; i<incidentReports.length; i++) {
+        if (incidentReports[i].media.image_url !== null) {
 
-        //sort by occurred_at date
-        incidentReports.sort(function(a, b) {
-            return b.occurred_at - a.occurred_at;
-        })
+            let description="";
+            if (incidentReports[i].description === null ||
+                incidentReports[i].description.length <= 0) {
+                continue;
+            }
 
-        //many reports do not come with images. use generic images 
-        let incidentObjList=[];
-        for (let i=0; i<incidentReports.length; i++) {
-            if (incidentReports[i].media.image_url !== null) {
+            description = incidentReports[i].description;
 
-                let description="";
-                if (incidentReports[i].description === null ||
-                    incidentReports[i].description.length <= 0) {
-                    continue;
-                }
+            if (description.length > 0) {
+                //Take only first 30 words.
+                let maxLength=30;
+                let descArray = description.trim().split(" ").slice(0, maxLength);
+                description = descArray.join(' ');
+            }
 
-                description = incidentReports[i].description;
+            incidentObjList.push(  {bikeImg: genericImg,
+                        reportTitle: incidentReports[i].title,
+                        description: description });
 
-                if (description.length > 0) {
-                    //Take only first 30 words.
-                    let maxLength=30;
-                    let descArray = description.trim().split(" ").slice(0, maxLength);
-                    description = descArray.join(' ');
-                }
+            if ( incidentObjList.length >= 3 ) {   //only need 3 reports
+                break;
+            }
+        }     
+    }
 
-                incidentObjList.push(  {bikeImg: genericImg,
-                            reportTitle: incidentReports[i].title,
-                            description: description });
+    return (
+    <div className="bike-img-row">
 
-                if ( incidentObjList.length >= 3 ) {   //only need 3 reports
-                    break;
-                }
-            }     
-        }
+        <ImageRow imgObjList={JSON.stringify(incidentObjList)} />
 
-        return (
-        <div className="bike-img-row">
+    </div>
+    )
+}
 
-            <ImageRow imgObjList={JSON.stringify(incidentObjList)} />
+
+export default function ZipCodes (props) {
+
+    if (props.location.getLocationsByTypeCallback === undefined) {
+        return <div></div>    //no callback to get data
+    }
+
+    let toContainerId="zip-codes";       
+    props.location.swapDisplayCallback(toContainerId, props);
+
+    return (
+        <div id={toContainerId}>
+
+        <GraphByZip  
+            reportType={'ALL'} 
+            graphTitle={'All reports by Zip codes'}
+            getLocationsByTypeCallback={props.location.getLocationsByTypeCallback}
+            />
+
+        
+        {displayMostRecentIncidents(props)}
 
         </div>
-        )
-    }
-
-    render() {
-
-        if (this.props.location.getLocationsByTypeCallback === undefined) {
-            return <div></div>    //no callback to get data
-        }
-
-        let toContainerId="zip-codes";
-        if (! this.state.redirectToHome) {  //do not overwrite display setup by filter form if redirecting away 
-            
-            this.props.location.swapDisplayCallback(toContainerId, this.props);
-        }
-
-        return (
-            <div id={toContainerId}>
-                
-                {this.state.redirectToHome &&
-                        <Redirect to='/Home' />    //route back to root (App component) depending on state
-                }
-
-            <GraphByZip  
-                reportType={'ALL'} 
-                graphTitle={'All reports by Zip codes'}
-                getLocationsByTypeCallback={this.props.location.getLocationsByTypeCallback}
-                />
-
-            
-            {this.displayMostRecentIncidents()}
-
-            </div>
-        )
-    }
+    )
 }
 
