@@ -60,7 +60,7 @@ export default class UnconfirmedSort extends Component {
         }
 
         return (
-        <div className="bikeImgRow">
+        <div className="bike-img-row">
 
             <ImageRow imgObjList={JSON.stringify(unconfirmedObjList)} />
 

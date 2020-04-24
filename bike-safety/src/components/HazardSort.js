@@ -60,7 +60,7 @@ export default class HazardSort extends Component {
         }
 
         return (
-        <div className="bikeImgRow">
+        <div className="bike-img-row">
 
             <ImageRow imgObjList={JSON.stringify(hazardObjList)} />
 
@@ -74,7 +74,7 @@ export default class HazardSort extends Component {
             return <div></div>    //no callback to get data
         }
 
-        let toContainerId="hazardSortContainer";
+        let toContainerId="hazard-sort-container";
         if (! this.state.redirectToHome) {  //do not overwrite display setup by filter form if redirecting away 
             
             this.props.location.swapDisplayCallback(toContainerId, this.props);

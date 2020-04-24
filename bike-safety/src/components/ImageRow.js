@@ -13,10 +13,10 @@ export default class ImageRow extends Component {
         }
 
         return (
-          <div className="bikeImgCard">
-            <p className="reportTitle">{imgCardInfo.reportTitle}</p>
-            <img className="bikeImg" src={imgCardInfo.bikeImg} />
-            <p className="descriptionTxt">{desc}</p>
+          <div className="bike-img-card">
+            <p className="report-title">{imgCardInfo.reportTitle}</p>
+            <img className="bike-img" src={imgCardInfo.bikeImg} />
+            <p className="description-txt">{desc}</p>
           </div>
         )
     }
@@ -30,7 +30,7 @@ export default class ImageRow extends Component {
         let imgObjList=JSON.parse(this.props.imgObjList);
 
         return (
-            <div className="bikeImgRow">
+            <div className="bike-img-row">
               {imgObjList.map( this.displayImgCard ) }
             </div>
         )

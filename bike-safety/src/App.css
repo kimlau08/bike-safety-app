@@ -26,7 +26,7 @@ textarea {
 *   Bar Chart styling
 ******************************************************************/
 
-  .chartBox {
+  .chart-box {
   
   width: 100%;
   height: auto;
@@ -36,13 +36,13 @@ textarea {
   justify-content: center;
   
   }
-    .graphChart {
+    .graph-chart {
       width: 40%;
       height: auto;
 
     }
 
-  .bikeImgRow {
+  .bike-img-row {
     width: 100%;
     height: auto;
 
@@ -52,13 +52,13 @@ textarea {
 
     margin-top: 15px;
   }
-    .reportTitle {
+    .report-title {
       margin: 5 0  auto;
       font-size: 12px;
       font-weight: bold;
       color: white;
     }
-    .bikeImgCard {
+    .bike-img-card {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -66,13 +66,13 @@ textarea {
 border: solid 1px lime;
     }
 
-      .bikeImg {
+      .bike-img {
         width: 350px;
         height: 350px;
 
       }
 
-      .descriptionTxt {
+      .description-txt {
         width: 320px;
         height: 50px;
         margin: -320px 10px;

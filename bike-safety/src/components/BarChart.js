@@ -25,7 +25,7 @@ export default function BarChart (props) {
     };
 
     return (
-        <div className="graphChart">
+        <div className="graph-chart">
             <Bar 
                 data={ graphData }
                 options={{

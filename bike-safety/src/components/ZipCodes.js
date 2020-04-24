@@ -68,7 +68,7 @@ export default class ZipCodes extends Component {
         }
 
         return (
-        <div className="bikeImgRow">
+        <div className="bike-img-row">
 
             <ImageRow imgObjList={JSON.stringify(incidentObjList)} />
 

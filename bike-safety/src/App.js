@@ -190,7 +190,7 @@ class App extends Component {
     }
 
     return (
-      <div  className="chartBox">
+      <div  className="chart-box">
          <BarChart graphTitle="Incidents by Types" 
                 labels={JSON.stringify(labels)} 
                 dataPoints={JSON.stringify(incidentCnts)} />
@@ -228,7 +228,7 @@ class App extends Component {
     }
 
     return (
-      <div className="bikeImgRow">
+      <div className="bike-img-row">
 
         <ImageRow imgObjList={JSON.stringify(theftImg)} />
 

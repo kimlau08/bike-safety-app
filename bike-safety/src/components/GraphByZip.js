@@ -72,7 +72,7 @@ const graphIncidentZips = (reportType, graphTitle, getLocationsByType) => {
     }
 
     return (
-      <div  className="chartBox">
+      <div  className="chart-box">
          <BarChart graphTitle={graphTitle}
                 labels={JSON.stringify(labels)} 
                 dataPoints={JSON.stringify(incidentCnts)} />
