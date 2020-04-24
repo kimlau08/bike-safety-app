@@ -39,6 +39,7 @@ const displayMostRecentHazards = (props) => {
         let descArray = description.trim().split(" ").slice(0, maxLength);
         description = descArray.join(' ');
 
+        //add report info as obj
         hazardObjList.push(  {bikeImg: genericImg,
                     reportTitle: hazardReports[i].title,
                     description: description });
@@ -51,6 +52,7 @@ const displayMostRecentHazards = (props) => {
     return (
     <div className="bike-img-row">
 
+        {/* invoke ImageRow to display sample report descriptions */}
         <ImageRow imgObjList={JSON.stringify(hazardObjList)} />
 
     </div>
@@ -75,6 +77,7 @@ export default function HazardSort (props)  {
             graphTitle={'Hazards by Zip codes'}
             getLocationsByTypeCallback={props.location.getLocationsByTypeCallback} />
 
+        {/* invoke GraphByZip to render graph of incident by zip code */}
         {displayMostRecentHazards(props)}
 
         </div>
