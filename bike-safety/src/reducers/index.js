@@ -1,7 +1,7 @@
 
 const initialState = {
 
-    proximity: "Austin, TX",
+    proximity: "Austin, TX",  //current proximity to be displayed next to nav bar
 
  };
   

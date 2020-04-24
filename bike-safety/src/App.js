@@ -559,7 +559,8 @@ function mapStateToProps(state) {
 
     proximity: state.proximity,
 
-    count: state.count
+    filter: state.filter
+
   };
 }
 

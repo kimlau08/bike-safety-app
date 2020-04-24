@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
-export default class Login extends Component {
+export default class Filters extends Component {
     constructor(props) {
         super(props);
 
@@ -25,7 +25,6 @@ export default class Login extends Component {
 
     }
 
-    
     handleCityStateChange(event) {
         if (event.target !== undefined) {
 
@@ -74,7 +73,6 @@ export default class Login extends Component {
         if (filterObj.city === "" && filterObj.zip === "" ) {
             document.getElementById('form-error-msg').innerHTML="Please enter a city or zip"
         } else {
-
 
             //launch query
             this.props.location.customQueryCallback(filterObj);
@@ -140,4 +138,5 @@ export default class Login extends Component {
         )
     }
 }
+
 
