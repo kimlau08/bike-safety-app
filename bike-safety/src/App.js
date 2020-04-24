@@ -14,13 +14,9 @@ import ZipCodes from './components/ZipCodes';
 import Filters from './components/Filters';
 import ImageRow from './components/ImageRow';
 import config from './config/config';
-
-
-import { connect } from 'react-redux';
-
 import setProximity from './actions/index.js'; 
 
-
+import { connect } from 'react-redux';
 
 const reportTypes = [
   "crash",
@@ -47,7 +43,7 @@ class App extends Component {
 
       //default query parms
       resultPage:   2,
-      cityState:    "Austin, TX",
+      cityState:    "Houston, TX",
       zip:           "",
       proximity_sq:  100,
       keyword:       "",
@@ -131,7 +127,6 @@ class App extends Component {
 
   }
 
- 
   stackReportsByType () {
     //group the reports by report types
 
@@ -199,7 +194,6 @@ class App extends Component {
     )
   }
 
-
   displayMostRecentThefts() {
 
     if ( JSON.stringify(this.state.reportsByType) === JSON.stringify({}) ) {
@@ -235,7 +229,6 @@ class App extends Component {
       </div>
     )
   }
-
 
   createQueryURL( FilterObj, queryPrefix ) {
     
@@ -321,7 +314,6 @@ class App extends Component {
     )) 
   }
 
-  
   customQuery( FilterObj ) {
 
     this.getBikeWiseData(FilterObj);  //report data
@@ -381,7 +373,6 @@ class App extends Component {
     }
   }
 
-
   async getZipData( feature ) {
 
     let geocodesAPIKey=config.REACT_APP_BIG_DATA_CLOUD_KEY;
@@ -413,7 +404,6 @@ class App extends Component {
       console.error(e);
     }
   }
-
 
   async getBikeWiseData( FilterObj ) {
     //get a large amount of reports and locations. chained to 2nd API to get zip code info
@@ -553,7 +543,6 @@ class App extends Component {
   }
 }
 
-
 function mapStateToProps(state) {
   return {
 
@@ -563,6 +552,5 @@ function mapStateToProps(state) {
 
   };
 }
-
 
 export default connect(mapStateToProps)(App);

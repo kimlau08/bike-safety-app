@@ -9,7 +9,7 @@ export default class Filters extends Component {
 
 
             //Filter parameters
-            cityState:    "Austin, TX",
+            cityState:    "Houston, TX",
             zip:           "",
             proximity_sq:  100,
             keyword:       "",
