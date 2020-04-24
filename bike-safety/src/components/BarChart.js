@@ -11,15 +11,15 @@ export default function BarChart (props) {
     let dataPoints = JSON.parse(props.dataPoints);
 
     let graphData = {
-        labels : labels,
+        labels : labels,  //graph labels
 
         datasets: [
             {
-                label: graphTitle,
+                label: graphTitle,    //graph title
                 backgroundColor: 'rgba(56,170,12,1)',
                 borderColor: 'rgba(0,0,0,1)',
                 borderWidth: 2,
-                data: dataPoints
+                data: dataPoints      //bar graph data points
             }
         ]
     };
@@ -30,20 +30,20 @@ export default function BarChart (props) {
                 data={ graphData }
                 options={{
                     title:{
-                    display:true,
+                    display:true,     //show graph title
                     text:graphTitle,
                     fontSize:20
                     },
 
                     legend:{
-                    display:false,
+                    display:false,    //do not show legend
                     position:'right'
                     },
 
                     scales: {
                         yAxes: [{
                             ticks: {
-                                beginAtZero:true,
+                                beginAtZero:true,  //origin at (0,0)
                                 fontColor: 'white'
                             },
                         }],
