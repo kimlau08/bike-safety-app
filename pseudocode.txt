@@ -1,30 +1,49 @@
-App.js
+CSS sections 
+	+ Bar chart styling section
+	
+		+ chart-box uses flex-box in row direction
+		
+			+ graph-chart defines graph size
+			
+		+ bike-img-row uses flex-box in row direction
+		
+			+ report-title defines title font style
+			
+			+ bike-img-row uses flex-box in column direction
+			
+			+ bike-img-card uses flex-box in column direction
+			
+				+ bike-img defines bike image size
+				
+				+ description-txt defines font style for incident report description details
+	
+	+ Menu and Logo
+	
+		+ menu use flex-box in row direction
+		
+			+ menu-bar uses flex-box in row direction
+			
+			+ logo-line defines logo font style
+		
+			+ city-proximity defines city/zip font style (upper right)
+				
+	+ Filter form
+	
+		+ filter-form-container uses grid for form input fields 
+		
+			+ filter-title styles and positions title in grid 
+			
+			+ city-input, zip-input, distance-input keyword-input positions input fields in form
+			
+			+ form-error-msg id positions and style error message
+			
+			+ search-button positions and style button
+			
+			+ input-field defines input font style 
+	
+	+ 
 
-components/Home.js
-
-components/HazardSort.js
-
-components/TheftSort.js
-
-components/UnconfirmedSort.js
-
-components/ZipCode.js
-
-components/Filter.js
 
 
-components/GraphByZip.js
 
 
-components/BarChart.js
-
-
-components/ImageRow.js
-
-reducers/index.js
-
-actions/index.js
-
-index.js
-
-Houston
