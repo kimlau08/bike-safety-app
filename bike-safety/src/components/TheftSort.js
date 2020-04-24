@@ -76,7 +76,7 @@ export default class TheftSort extends Component {
             return <div></div>    //no callback to get data
         }
 
-        let toContainerId="theftSortContainer";
+        let toContainerId="theft-sort-container";
         if (! this.state.redirectToHome) {  //do not overwrite display setup by filter form if redirecting away 
             
             this.props.location.swapDisplayCallback(toContainerId, this.props);

@@ -74,7 +74,7 @@ export default class UnconfirmedSort extends Component {
             return <div></div>    //no callback to get data
         }
 
-        let toContainerId="unconfirmedSortContainer";
+        let toContainerId="unconfirmed-sort-container";
         if (! this.state.redirectToHome) {  //do not overwrite display setup by filter form if redirecting away 
             
             this.props.location.swapDisplayCallback(toContainerId, this.props);
