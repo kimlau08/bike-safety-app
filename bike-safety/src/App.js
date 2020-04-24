@@ -37,8 +37,8 @@ class App extends Component {
       locationsAndZips: [],
       axiosDataLoaded: false,
 
-      locationsByType: {},    //object of arrays, with geocodes, zip and type of reports
-      reportsByType: {},      //objects of arrays of detailed reports
+      locationsByType: this.initializeReportlists(),    //object of arrays, with geocodes, zip and type of reports
+      reportsByType:   this.initializeReportlists(),    //objects of arrays of detailed reports
       currentLocation: "Houston, TX", //city or zip
 
       //default query parms
@@ -59,8 +59,10 @@ class App extends Component {
     this.createQueryURL=this.createQueryURL.bind(this);
     this.createMultipleURLs=this.createMultipleURLs.bind(this);
 
+    this.initStateDataByType=this.initStateDataByType.bind(this);
     this.listReportsByType=this.listReportsByType.bind(this);
-    this.listZipDataByType=this.listZipDataByType.bind(this);
+    this.insertZipObjByType=this.insertZipObjByType.bind(this);
+
     this.sortReportTypes=this.sortReportTypes.bind(this);
 
     this.graphIncidentTypes=this.graphIncidentTypes.bind(this);
@@ -98,46 +100,64 @@ class App extends Component {
 
     return reports;
   }
-  
-  listZipDataByType () {
-    //group the report locations by report types
+  initStateDataByType () {
 
-    if (this.state.locationsAndZips === undefined) {
-      return; //no data
-    }
+    //initialize both state data to an object of empty arrays. each corresponds to a report type
+    let initDataObj = this.initializeReportlists();
 
-    //create empty arrays of report types
-    let locations = this.initializeReportlists(); 
+    this.setState(  {locationsByType :initDataObj } );
+    this.setState(  {reportsByType :initDataObj } );
 
-    let zipList=this.state.locationsAndZips;
-    for (let i=0; i<zipList.length; i++) {
-      if ( zipList[i].type.toLowerCase() in locations )  {
+  }
 
-        locations[zipList[i].type.toLowerCase()].push(zipList[i])   //save report
+  listDataByType(reportList) {
+    //group the report by report types
+
+    let locations = this.state.locationsByType;
+
+    for ( let i=0; i< reportList.length; i++ ) {
+      if ( reportList[i].type.toLowerCase() in locations )  {
+
+        locations[reportList[i].type.toLowerCase()].push(reportList[i])   //save report
 
       } else {
 
         //first report of that type. Start with an array of 1 elem
-        Object.assign(  locations, { [ zipList[i].type.toLowerCase() ] : [ zipList[i] ]} ) 
+        Object.assign(  locations, { [ reportList[i].type.toLowerCase() ] : [ reportList[i] ]} ) 
         
       }
+    }
+  }
+
+  insertZipObjByType (zipObj) {
+    //insert the report by report types
+
+    let locations=this.state.locationsByType;
+    if ( zipObj.type.toLowerCase() in locations )  {
+
+      locations[ zipObj.type.toLowerCase() ].push(zipObj)   //save report
+
+    } else {
+
+      //first report of that type. Start with an array of 1 elem
+      Object.assign(  locations, { [ zipObj.type.toLowerCase() ] : [ zipObj ]} ) 
+      
     }
 
     this.setState(  {locationsByType: locations}  )
 
   }
 
-  listReportsByType () {
+  listReportsByType (resp) {
     //group the reports by report types
 
-    if (this.state.response === undefined) {
+    if (resp === undefined) {
       return; //no data
     }
 
     //initialize reports object with empty arrays. each corresponds to a report type
     let reports = this.initializeReportlists(); 
 
-    let resp=this.state.response;
     for (let i=0; i<resp.length; i++) {
       if ( resp[i].type.toLowerCase() in reports )  {
 
@@ -320,12 +340,15 @@ class App extends Component {
     )) 
   }
 
+  //query using the filters specified by user on the Filter form
   customQuery( FilterObj ) {
-    //query using the filters specified by user on the Filter form
+    
+    // empty locationsByType and reportsByType
+    this.initStateDataByType(); 
 
-    this.getBikeWiseData(FilterObj);  //report data
+    this.getBikeWiseData(FilterObj);    //query report data
 
-    let urls=this.createMultipleURLs( FilterObj );
+    let urls=this.createMultipleURLs( FilterObj );   //query report details
     this.simultaneousRequests(urls); 
 
   }
@@ -405,7 +428,7 @@ class App extends Component {
 
       this.setState({locationsAndZips: arr});
 
-      this.listZipDataByType(response);
+      this.insertZipObjByType(zipObj);
 
     } catch (e) {
       console.error(e);

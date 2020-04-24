@@ -105,18 +105,6 @@ App.js (stateful)
 				
 				+ include reports in response state
 							
-	+ listZipDataByType - group the report locations by report types 
-		
-			+ create the locations object containing emtpty arrays
-			
-			+ for each location in locationsAndZips, the consolidated API response data 
-				if location's report type is in locations object 
-					push location into the locations array for that type
-				else 
-					put the location in a new array. assign to the object as an element
-
-			+ set locationsByType state
-	
 	+ listReportsByType - group the reports by report types
 		
 			+ create the reports object containing empty arrays
