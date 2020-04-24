@@ -34,8 +34,8 @@ const displayMostRecentUnconfirmed = (props) => {
 
         description = unconfirmedReports[i].description;
 
-        //Take only first 30 words.
-        let maxLength=30;
+        //Take only first 60 words.
+        let maxLength=60;
         let descArray = description.trim().split(" ").slice(0, maxLength);
         description = descArray.join(' ');
 

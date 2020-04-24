@@ -39,12 +39,10 @@ const displayMostRecentIncidents = (props) => {
 
             description = incidentReports[i].description;
 
-            if (description.length > 0) {
-                //Take only first 30 words.
-                let maxLength=30;
-                let descArray = description.trim().split(" ").slice(0, maxLength);
-                description = descArray.join(' ');
-            }
+            //Take only first 60 words.
+            let maxLength=60;
+            let descArray = description.trim().split(" ").slice(0, maxLength);
+            description = descArray.join(' ');
 
             incidentObjList.push(  {bikeImg: genericImg,
                         reportTitle: incidentReports[i].title,

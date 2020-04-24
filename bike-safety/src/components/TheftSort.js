@@ -34,12 +34,10 @@ const displayMostRecentTheftDesc = (props) => {
 
         description = theftReports[i].description;
 
-        if (description.length > 0) {
-            //Take only first 30 words.
-            let maxLength=30;
-            let descArray = description.trim().split(" ").slice(0, maxLength);
-            description = descArray.join(' ');                        
-        }
+        //Take only first 60 words.
+        let maxLength=60;
+        let descArray = description.trim().split(" ").slice(0, maxLength);
+        description = descArray.join(' ');                        
 
         theftObjList.push(  {bikeImg: genericImg,
                     reportTitle: theftReports[i].title,

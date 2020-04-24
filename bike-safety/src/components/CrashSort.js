@@ -41,9 +41,9 @@ export default class CrashSort extends Component {
 
                 description = crashReports[i].description;
 
-                //Take only first 30 words.
+                //Take only first 100 words.
                 if (description.length > 0) {
-                    let maxLength=30;
+                    let maxLength=100;
                     let descArray = description.trim().split(" ").slice(0, maxLength);
                     description = descArray.join(' ');
                 }
