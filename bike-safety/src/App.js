@@ -180,7 +180,11 @@ class App extends Component {
     let labels = []; //bar labels
     let incidentCnts = []; //bar lengths
     for (let i=0; i<reportArray.length; i++) {
+
+      //create labels using the incident types from locationsByType object
       labels.push(reportArray[i][0])
+
+      //create data points using length of each array in locationsByType object
       incidentCnts.push(reportArray[i][1].length);
     }
 
@@ -196,6 +200,7 @@ class App extends Component {
   }
 
   displayMostRecentThefts() {
+    //display 3 sample theft report descriptions
 
     if ( JSON.stringify(this.state.reportsByType) === JSON.stringify({}) ) {
       return <div></div>      //no data to display
