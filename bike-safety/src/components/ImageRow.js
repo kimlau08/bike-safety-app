@@ -2,23 +2,24 @@ import React, { Component } from 'react';
 
 export default class ImageRow extends Component {
     constructor(props) {
-        super(props);
+      super(props);
     }
 
-    displayImgCard(imgCardInfo) {
+    displayImgCard(imgCardInfo) { 
+      //display the title, image, and description for a report
 
-        let desc = "";
-        if ( "description" in imgCardInfo) {
-          desc = imgCardInfo.description;
-        }
+      let desc = "";
+      if ( "description" in imgCardInfo) {
+        desc = imgCardInfo.description;
+      }
 
-        return (
-          <div className="bike-img-card">
-            <p className="report-title">{imgCardInfo.reportTitle}</p>
-            <img className="bike-img" src={imgCardInfo.bikeImg} />
-            <p className="description-txt">{desc}</p>
-          </div>
-        )
+      return (
+        <div className="bike-img-card">
+          <p className="report-title">{imgCardInfo.reportTitle}</p>
+          <img className="bike-img" src={imgCardInfo.bikeImg} />
+          <p className="description-txt">{desc}</p>
+        </div>
+      )
     }
 
     render () {
@@ -31,6 +32,8 @@ export default class ImageRow extends Component {
 
         return (
             <div className="bike-img-row">
+
+              {/* display image info objects */}
               {imgObjList.map( this.displayImgCard ) }
             </div>
         )
