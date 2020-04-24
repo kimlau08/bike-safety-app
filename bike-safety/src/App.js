@@ -334,7 +334,7 @@ class App extends Component {
 
     this.getBikeWiseData();      //report data
 
-    let urls=this.createMultipleURLs(  );
+    let urls=this.createMultipleURLs(  );  
     this.simultaneousRequests(urls);  
 
   }
@@ -345,7 +345,7 @@ class App extends Component {
 
   swapContainerOnDisplay(toContainerId, inputProps) {   
 
-    //turn on display of "from container" in props. display "to container" instead
+    //turn off display of "from container" in props. display "to container" instead
 
     if (inputProps.location === undefined) { 
       //Came in from direct React component call instead of Router. No need to swap display
@@ -354,6 +354,7 @@ class App extends Component {
       return;
     }
 
+    //Look for the container element to be swapped from
     let fromContainerId=this.state.containerOnDisplay;
     let fromContainerElem=null;
     if (fromContainerId !== ""  &&  fromContainerId !== toContainerId) {
@@ -381,6 +382,7 @@ class App extends Component {
 
   async getZipData( feature ) {
 
+    //API for finding zip code
     let geocodesAPIKey=config.REACT_APP_BIG_DATA_CLOUD_KEY;
 
     let longitude=feature.geometry.coordinates[0];  let latitude=feature.geometry.coordinates[1]; 
