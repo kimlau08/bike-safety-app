@@ -147,7 +147,7 @@ App.js (stateful)
 	
 			+ sort theft reports by occurred_at date. the most recent first
 			
-			+ invoke ImageRow componenet to display graph
+			+ invoke ImageRow componenet to display image and text
 
 	
 

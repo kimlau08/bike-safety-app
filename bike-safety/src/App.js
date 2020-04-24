@@ -230,6 +230,7 @@ class App extends Component {
     return (
       <div className="bike-img-row">
 
+        {/* invoke ImageRow componenet to display image and text */}
         <ImageRow imgObjList={JSON.stringify(theftImg)} />
 
       </div>
