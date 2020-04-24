@@ -6,99 +6,81 @@ import GraphByZip from './GraphByZip';
 import ImageRow from './ImageRow';
 import genericImg from '../assets/bike-trail.jpg'
 
-export default class TheftSort extends Component {
-    constructor(props) {
-        super(props);
+const displayMostRecentTheftDesc = (props) => {
 
-        this.state={
+    let reportsByType = props.location.getReportsByTypeCallback();
 
-            redirectToHome: false 
+    if ( reportsByType === JSON.stringify({}) ) {
+    return <div></div>      //no data to display
+    }
+
+    reportsByType = JSON.parse(reportsByType);
+
+    let theftReports=reportsByType["theft"]; 
+
+    //sort by occurred_at date
+    theftReports.sort(function(a, b) {
+        return b.occurred_at - a.occurred_at;
+    })
+
+    //use generic images for sample descriptions.
+    let theftObjList=[];
+    for (let i=0; i<theftReports.length; i++) {
+
+        let description="";
+        if (theftReports[i].description === null ||
+            theftReports[i].description.length <= 0) {
+                continue;
+        }
+
+        description = theftReports[i].description;
+
+        if (description.length > 0) {
+            //Take only first 30 words.
+            let maxLength=30;
+            let descArray = description.trim().split(" ").slice(0, maxLength);
+            description = descArray.join(' ');                        
+        }
+
+        theftObjList.push(  {bikeImg: genericImg,
+                    reportTitle: theftReports[i].title,
+                    description: description });
+
+        if ( theftObjList.length >= 3 ) {   //only need 3 reports
+            break;
         }
     }
 
-    displayMostRecentTheftDesc() {
+    return (
+    <div className="bike-img-row">
 
-        let reportsByType = this.props.location.getReportsByTypeCallback();
+        <ImageRow imgObjList={JSON.stringify(theftObjList)} />
 
-        if ( reportsByType === JSON.stringify({}) ) {
-        return <div></div>      //no data to display
-        }
+    </div>
+    )
+}
+export default function TheftSort (props) {
 
-        reportsByType = JSON.parse(reportsByType);
+    if (props.location.getLocationsByTypeCallback === undefined) {
+        return <div></div>    //no callback to get data
+    }
 
-        let theftReports=reportsByType["theft"]; 
+    let toContainerId="theft-sort-container";
+        
+    props.location.swapDisplayCallback(toContainerId, props);
 
-        //sort by occurred_at date
-        theftReports.sort(function(a, b) {
-            return b.occurred_at - a.occurred_at;
-        })
+    return (
+        <div id={toContainerId}>
 
-        //use generic images for sample descriptions.
-        let theftObjList=[];
-        for (let i=0; i<theftReports.length; i++) {
+        <GraphByZip  
+            reportType={'theft'} 
+            graphTitle={'Thefts by Zip codes'}
+            getLocationsByTypeCallback={props.location.getLocationsByTypeCallback}
+            />
 
-            let description="";
-            if (theftReports[i].description === null ||
-                theftReports[i].description.length <= 0) {
-                    continue;
-            }
-
-            description = theftReports[i].description;
-
-            if (description.length > 0) {
-                //Take only first 30 words.
-                let maxLength=30;
-                let descArray = description.trim().split(" ").slice(0, maxLength);
-                description = descArray.join(' ');                        
-            }
-
-            theftObjList.push(  {bikeImg: genericImg,
-                        reportTitle: theftReports[i].title,
-                        description: description });
-
-            if ( theftObjList.length >= 3 ) {   //only need 3 reports
-                break;
-            }
-        }
-
-        return (
-        <div className="bike-img-row">
-
-            <ImageRow imgObjList={JSON.stringify(theftObjList)} />
+        {displayMostRecentTheftDesc(props)}
 
         </div>
-        )
-    }
-    
-    render() {
-
-        if (this.props.location.getLocationsByTypeCallback === undefined) {
-            return <div></div>    //no callback to get data
-        }
-
-        let toContainerId="theft-sort-container";
-        if (! this.state.redirectToHome) {  //do not overwrite display setup by filter form if redirecting away 
-            
-            this.props.location.swapDisplayCallback(toContainerId, this.props);
-        }
-
-        return (
-            <div id={toContainerId}>
-                
-                {this.state.redirectToHome &&
-                        <Redirect to='/Home' />    //route back to root (App component) depending on state
-                }
-
-            <GraphByZip  
-                reportType={'theft'} 
-                graphTitle={'Thefts by Zip codes'}
-                getLocationsByTypeCallback={this.props.location.getLocationsByTypeCallback}
-                />
-
-            {this.displayMostRecentTheftDesc()}
-
-            </div>
-        )
-    }
+    )
 }
 
