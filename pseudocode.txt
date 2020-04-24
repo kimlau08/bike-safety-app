@@ -42,7 +42,7 @@ CSS sections
 			+ input-field defines input font style 
 
 
-App.js
+App.js (stateful)
 
 	+ Main data structure
 		+ response, locations - has response data from Ajax
@@ -169,6 +169,33 @@ components/HazardSort.js (stateless)
 
 			+ prep an array of objects, each containing an image, report title, description-txt for a report
 			
+components/Filter.js (stateful)
 
+	+ main data structure
+	
+		+ fields in filter form containing updates received in event handlers
+
+	+ main functions
+
+		+ render 
+	
+			+ display the filter component by updating CSS display.
+ 
+			+ layout filter form
 			
+		+ handleQueryForm
+		
+			+ for each field element in the form
+			
+				+ if type is "text" or "number" 
+				
+					assign to the filter object as key : value pair
+					
+			+ preventDefault
+			
+			+ launch API request to query data using customQueryCallback function
+			
+			+ update redirectToHome to true to redirect Router to home component
+			
+			+ display the home component by updating CSS display.
 			
