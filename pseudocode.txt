@@ -217,6 +217,20 @@ components/GraphByZip (stateless)
 		
 			+ invoke BarChart to display the graph
 
+
+components/BarChart (stateless)
+
+	+ put labels in graphData object
+	
+	+ put dataPoints in graphData object
+	
+	+ put graphTitle in graphData object 
+
+	+ set graph styling 
+	
+	+ invoke Bar from React chart to display graph
+
+
 components/TheftSort.js (stateless)
 
 	+ display the theft component by updating CSS display.
