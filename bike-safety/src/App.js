@@ -58,8 +58,8 @@ class App extends Component {
     this.createQueryURL=this.createQueryURL.bind(this);
     this.createMultipleURLs=this.createMultipleURLs.bind(this);
 
-    this.stackReportsByType=this.stackReportsByType.bind(this);
-    this.stackZipDataByType=this.stackZipDataByType.bind(this);
+    this.listReportsByType=this.listReportsByType.bind(this);
+    this.listZipDataByType=this.listZipDataByType.bind(this);
     this.sortReportTypes=this.sortReportTypes.bind(this);
 
     this.graphIncidentTypes=this.graphIncidentTypes.bind(this);
@@ -86,7 +86,7 @@ class App extends Component {
     return JSON.stringify(this.state.reportsByType);
   }
 
-  initializeReportStacks() {
+  initializeReportlists() {
 
     let reports={}
 
@@ -98,7 +98,7 @@ class App extends Component {
     return reports;
   }
   
-  stackZipDataByType () {
+  listZipDataByType () {
     //group the report locations by report types
 
     if (this.state.locationsAndZips === undefined) {
@@ -106,7 +106,7 @@ class App extends Component {
     }
 
     //create empty arrays of report types
-    let locations = this.initializeReportStacks(); 
+    let locations = this.initializeReportlists(); 
 
     let zipList=this.state.locationsAndZips;
     for (let i=0; i<zipList.length; i++) {
@@ -126,7 +126,7 @@ class App extends Component {
 
   }
 
-  stackReportsByType () {
+  listReportsByType () {
     //group the reports by report types
 
     if (this.state.response === undefined) {
@@ -134,7 +134,7 @@ class App extends Component {
     }
 
     //create empty arrays of report types
-    let reports = this.initializeReportStacks(); 
+    let reports = this.initializeReportlists(); 
 
     let resp=this.state.response;
     for (let i=0; i<resp.length; i++) {
@@ -303,7 +303,7 @@ class App extends Component {
   
         this.setState({response: arr});   
 
-        this.stackReportsByType(arr);
+        this.listReportsByType(arr);
 
       })
       .catch(error=>{
@@ -395,7 +395,7 @@ class App extends Component {
 
       this.setState({locationsAndZips: arr});
 
-      this.stackZipDataByType(response);
+      this.listZipDataByType(response);
 
     
     } catch (e) {
