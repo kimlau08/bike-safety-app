@@ -34,7 +34,6 @@ class App extends Component {
 
       response: [],
       locations: [],
-      locationsAndZips: [],
       axiosDataLoaded: false,
 
       locationsByType: this.initializeReportlists(),    //object of arrays, with geocodes, zip and type of reports
@@ -423,11 +422,6 @@ class App extends Component {
                  latitude:    latitude
                };
 
-      let arr=this.state.locationsAndZips;
-      arr.push(zipObj);
-
-      this.setState({locationsAndZips: arr});
-
       this.insertZipObjByType(zipObj);
 
     } catch (e) {
@@ -449,7 +443,6 @@ class App extends Component {
       this.setState({locations: response.data.features})
 
       //chained request to Reverse Geocodes lookup API to get zip code from coordinates
-      this.setState({locationsAndZips: []})  //clear data before lookup
       response.data.features.map(this.getZipData);
 
       if (FilterObj !== undefined) {
