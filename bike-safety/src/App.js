@@ -42,7 +42,6 @@ class App extends Component {
       currentLocation: "Austin, TX", //city or zip
 
       //default query parms
-      resultPage:   2,
       cityState:    "Houston, TX",
       zip:           "",
       proximity_sq:  100,
@@ -237,7 +236,6 @@ class App extends Component {
     // "https://bikewise.org:443/api/v2/locations?proximity=Austin%2C%20TX&proximity_square=100&limit=10";
 
     //Default filter values
-    let resultPage=this.state.resultPage;
     let cityState=this.state.cityState;
     let zip=this.state.zip;
     let proximity_sq=this.state.proximity_sq;
