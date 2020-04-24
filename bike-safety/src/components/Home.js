@@ -8,7 +8,7 @@ export default class Home extends Component {
     render () {
 
         if (this.props.location.swapDisplayCallback !== undefined) {
-            this.props.location.swapDisplayCallback("homeContainer", this.props);
+            this.props.location.swapDisplayCallback("home-container", this.props);
         }
         return (
             <div>

@@ -52,7 +52,7 @@ class App extends Component {
       proximity_sq:  100,
       keyword:       "",
 
-      containerOnDisplay: "homeContainer"
+      containerOnDisplay: "home-container"
     }
 
     this.getBikeWiseData=this.getBikeWiseData.bind(this);
@@ -453,7 +453,7 @@ class App extends Component {
       <div>
         <Router>
             <nav className="menu">
-              <ul className="menuBar">
+              <ul className="menu-bar">
                 <li>
                   <Link to={{
                       pathname: "/Home",
@@ -507,11 +507,11 @@ class App extends Component {
 
               </ul>
 
-              <p className="cityProximity"> { this.props.proximity } </p>
+              <p className="city-proximity"> { this.props.proximity } </p>
 
             </nav>
 
-            <h2 className="logoLine">Bike Safety</h2>
+            <h2 className="logo-line">Bike Safety</h2>
 
             <Switch>
               <Route path="/Home" component={Home} />
@@ -542,7 +542,7 @@ class App extends Component {
           <Redirect to='/Home' />  
         </Router>
 
-        <div id="homeContainer">
+        <div id="home-container">
           {this.graphIncidentTypes()}
           {this.displayMostRecentThefts()}
 

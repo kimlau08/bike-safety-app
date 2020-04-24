@@ -83,7 +83,7 @@ export default class Login extends Component {
             this.setState( { redirectToHome: true } ); 
             
             //swap back to the Home component display before redirect
-            this.props.location.swapDisplayCallback("homeContainer", this.props);
+            this.props.location.swapDisplayCallback("home-container", this.props);
         }
     }
 

@@ -88,7 +88,7 @@ border: solid 1px lime;
   flex-direction: row;
   justify-content: space-between;
 }
-  .menuBar {
+  .menu-bar {
     width: 700px;
 
     display: flex;
@@ -106,13 +106,13 @@ border: solid 1px lime;
     font-weight: bold;
   }
 
-  .logoLine {
+  .logo-line {
     text-align: center;
     font-size: 36px;
     font-style: italic;
   }
 
-  .cityProximity {
+  .city-proximity {
     margin-right: 10px;
     font-weight: bold;
     font-size: 20px;
