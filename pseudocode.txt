@@ -165,3 +165,10 @@ components/HazardSort.js (stateless)
 	
 		+ displayMostRecentHazards
 		
+			+ sort hazard reports by occurred_at date. the most recent first
+
+			+ prep an array of objects, each containing an image, report title, description-txt for a report
+			
+
+			
+			
