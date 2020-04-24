@@ -3,7 +3,7 @@ import '../App.css';
 
 import GraphByZip from './GraphByZip';
 import ImageRow from './ImageRow';
-import genericImg from '../assets/bike-trail.jpg'
+import genericImg from '../assets/theft.jpg';
 
 const displayMostRecentTheftDesc = (props) => {
 
