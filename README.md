@@ -5,7 +5,7 @@
 ### 2) Reverse Geocodes lookup: https://www.bigdatacloud.com/geocoding-apis/free-reverse-geocode-to-city-api?gclid=CjwKCAjw1v_0BRAkEiwALFkj5oZPTWnaOELHK_9-whruEaiEOWboApfvBzBXuVnr_6dV43bsf_63SRoCDIoQAvD_BwE
 # 
 # Problem Statement
-### Provide data on bike incidents in major cities to inform bikers and bike owners of safety issues in different parts of a city
+### Provide data on bike incidents in major cities to inform bikers and bike owners of safety issues in different parts of a city. Users of this app can get info about the types of problems they may encounter in the areas they are concered about. They can use the info to steer them to safe areas when using their bikes.
 # 
 # Target users
 ### People who bike for fun, for work, and people who own bikes

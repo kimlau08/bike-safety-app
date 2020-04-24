@@ -5,7 +5,7 @@ import GraphByZip from './GraphByZip';
 import ImageRow from './ImageRow';
 import genericImg from '../assets/theft.jpg';
 
-const displayMostRecentTheftDesc = (props) => {
+const displayMostRecentThefts = (props) => {
 
     let reportsByType = props.location.getReportsByTypeCallback();
 
@@ -75,7 +75,7 @@ export default function TheftSort (props) {
             getLocationsByTypeCallback={props.location.getLocationsByTypeCallback}
             />
 
-        {displayMostRecentTheftDesc(props)}
+        {displayMostRecentThefts(props)}
 
         </div>
     )

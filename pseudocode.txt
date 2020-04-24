@@ -216,3 +216,6 @@ components/GraphByZip (stateless)
 		+ sortReportsByZip - return an object of arrays. each corresponding a zip code appearing in the reports.
 		
 			+ invoke BarChart to display the graph
+
+
+			
