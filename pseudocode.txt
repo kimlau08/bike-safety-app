@@ -198,4 +198,21 @@ components/Filter.js (stateful)
 			+ update redirectToHome to true to redirect Router to home component
 			
 			+ display the home component by updating CSS display.
+
+components/GraphByZip (stateless)
+
+	+ call graphIncidentZips to create graph of specified incident type by zip code
+	
+	+ main function 
+	
+		+ graphIncidentZips - display graph 
+	
+			+ create labels using the specified type from locationsByType object 
 			
+			+ create data points using length of each array in locationsByType object
+			
+			+ invoke BarChart component to create graph
+			
+		+ sortReportsByZip - return an object of arrays. each corresponding a zip code appearing in the reports.
+		
+			+ invoke BarChart to display the graph
