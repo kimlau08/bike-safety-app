@@ -125,7 +125,7 @@ border: solid 1px lime;
 ******************************************************************/
 
 
-.FilterFormContainer {
+.filter-form-container {
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr ;
@@ -141,7 +141,7 @@ border: solid 1px lime;
 }
 
 
-  .FilterTitle {
+  .fitler-title {
     grid-column: 2/3;
     grid-row: 1;
     align-self: center;
@@ -156,28 +156,28 @@ border: solid 1px lime;
   }
 
 
-  .cityInput {
+  .city-input {
     grid-column: 1/2;
     grid-row: 2;
     align-self: center;
 
     margin-top: 20px;
   }
-  .zipInput {
+  .zip-input {
     grid-column: 3/4;
     grid-row: 2;
     align-self: center;
 
     margin-top: 20px;
   }
-  .distanceInput {
+  .distance-input {
     grid-column: 1/2;
     grid-row: 3;
     align-self: center;
 
     margin-top: 20px;
   }
-  .keywordInput {
+  .keyword-input {
     grid-column: 3/4;
     grid-row: 3;
     align-self: center;
@@ -185,7 +185,7 @@ border: solid 1px lime;
     margin-top: 20px;
   }
 
-  #formErrorMsg {
+  #form-error-msg {
     grid-column: 2/3;
     grid-row: 4;
     align-self: center;
@@ -194,7 +194,7 @@ border: solid 1px lime;
     color: red;
   }
 
-  .searchButton {
+  .search-button {
     grid-column: 2/3;
     grid-row: 5;
     align-self: center;
@@ -209,7 +209,7 @@ border: solid 1px lime;
     text-align: center;
     margin-left: 60px;
   }
-  .textInput, .numberInput {
+  .text-input, .number-input {
     border: solid 1px lightgrey;
     border-radius: 5px;
     font-size: 16px;

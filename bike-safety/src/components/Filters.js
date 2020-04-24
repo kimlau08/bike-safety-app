@@ -72,7 +72,7 @@ export default class Login extends Component {
         event.preventDefault();
 
         if (filterObj.city === "" && filterObj.zip === "" ) {
-            document.getElementById('formErrorMsg').innerHTML="Please enter a city or zip"
+            document.getElementById('form-error-msg').innerHTML="Please enter a city or zip"
         } else {
 
 
@@ -93,7 +93,7 @@ export default class Login extends Component {
             return <div></div>    //no callback to make query
         }
 
-        let toContainerId="filterContainer";
+        let toContainerId="filter-container";
         if (! this.state.redirectToHome) {  //do not overwrite display setup by filter form if redirecting away 
             
             this.props.location.swapDisplayCallback(toContainerId, this.props);
@@ -107,33 +107,33 @@ export default class Login extends Component {
                 }
 
 
-                <form className="FilterFormContainer" onSubmit={this.handleQueryForm}>
+                <form className="filter-form-container" onSubmit={this.handleQueryForm}>
                     
-                    <p  className="FilterTitle">Filters</p>
+                    <p  className="fitler-title">Filters</p>
 
-                    <label className="cityInput">
+                    <label className="city-input">
                         City
-                        <input className="textInput" type="text" name="city" value={this.state.cityState} placeholder="Choose City, State" onChange={this.handleCityStateChange} />
+                        <input className="text-input" type="text" name="city" value={this.state.cityState} placeholder="Choose City, State" onChange={this.handleCityStateChange} />
                     </label>
 
-                    <label className="zipInput">
+                    <label className="zip-input">
                         Zip
-                        <input className="textInput" type="text" name="zip" value={this.state.zip} placeholder="Enter Zip" onChange={this.handleZipChange} />
+                        <input className="text-input" type="text" name="zip" value={this.state.zip} placeholder="Enter Zip" onChange={this.handleZipChange} />
                     </label>
 
-                    <label className="distanceInput">
+                    <label className="distance-input">
                         Proximity
-                        <input className="numberInput" type="number" name="proximity_sq" value={this.state.proximity_sq} placeholder="Enter Distance" onChange={this.handleProximitySqChange} />
+                        <input className="number-input" type="number" name="proximity_sq" value={this.state.proximity_sq} placeholder="Enter Distance" onChange={this.handleProximitySqChange} />
                     </label>
 
-                    <label className="keywordInput">
+                    <label className="keyword-input">
                         Keyword
-                        <input className="textInput" type="text" name="keyword" value={this.state.keyword} placeholder="Enter Text" onChange={this.handleKeywordChange} />
+                        <input className="text-input" type="text" name="keyword" value={this.state.keyword} placeholder="Enter Text" onChange={this.handleKeywordChange} />
                     </label>
 
-                    <p  id="formErrorMsg"></p>
+                    <p  id="form-error-msg"></p>
 
-                    <button type="Search" className="searchButton">Search</button>
+                    <button type="Search" className="search-button">Search</button>
 
                 </form>
             </div>
