@@ -15,13 +15,13 @@
 ![wireframe](./wireframes/Home.png)
 ### Filters for Search
 ![wireframe](./wireframes/Filter.png)
-### Hazard Sort - show zip codes with highest hazard reports
+### Hazard Reports - show zip codes with highest hazard reports
 ![wireframe](./wireframes/Hazard_Sort.png)
-### Theft Sort - show zip codes with highest theft reports
+### Theft Reports - show zip codes with highest theft reports
 ![wireframe](./wireframes/Theft_Sort.png)
-### Crash Sort - show zip codes with highest crash reports
-![wireframe](./wireframes/Crash_Sort.png)
-### Zip Codes - show Zip codes with highest overall reports
+### Unconfirmed Reports - show zip codes with highest crash reports
+![wireframe](./wireframes/Unconfirmed_Sort.png)
+### All Reports - show Zip codes with highest overall reports
 ![wireframe](./wireframes/Zip_Codes.png)
 # 
 # Components
@@ -34,6 +34,9 @@
 #### TheftSort.js
 #### UnconfirmedSort.js
 #### ZipCodes.js
+#### GraphByZip.js
+#### ImageRow.js
+#### BarChart.js
 #
 # Technologies used
 ### Redux+React to maintain city proximity of queried data (upper right of home screen)

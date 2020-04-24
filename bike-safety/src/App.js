@@ -460,7 +460,7 @@ class App extends Component {
                       getLocationsByTypeCallback: this.getLocationsByType,
                       getReportsByTypeCallback : this.getReportsByType,
                       swapDisplayCallback: this.swapContainerOnDisplay,
-                    }}>Hazard Sort</Link>
+                    }}>Hazard Reports</Link>
                 </li>
 
                 <li>
@@ -469,7 +469,7 @@ class App extends Component {
                       getLocationsByTypeCallback: this.getLocationsByType,
                       getReportsByTypeCallback : this.getReportsByType,
                       swapDisplayCallback: this.swapContainerOnDisplay,
-                    }}>Theft Sort</Link>
+                    }}>Theft Reports</Link>
                 </li>
 
                 <li>
@@ -478,7 +478,7 @@ class App extends Component {
                       getLocationsByTypeCallback: this.getLocationsByType,
                       getReportsByTypeCallback : this.getReportsByType,
                       swapDisplayCallback: this.swapContainerOnDisplay,
-                    }}>Unconfirmed Cases</Link>
+                    }}>Unconfirmed Reports</Link>
                 </li>
 
                 <li>
@@ -487,7 +487,7 @@ class App extends Component {
                       getLocationsByTypeCallback: this.getLocationsByType,
                       getReportsByTypeCallback : this.getReportsByType,
                       swapDisplayCallback: this.swapContainerOnDisplay,
-                    }}>Zip Codes</Link>
+                    }}>All Reports</Link>
                 </li>
 
                 <li>
