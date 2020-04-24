@@ -217,5 +217,36 @@ components/GraphByZip (stateless)
 		
 			+ invoke BarChart to display the graph
 
+components/TheftSort.js (stateless)
 
-			
+	+ display the theft component by updating CSS display.
+	
+	+ invoke GraphByZip to render graph of incident by zip code  
+	
+	+ display sample report descriptions using displayMostRecentThefts
+	
+	+ Main functions
+	
+		+ displayMostRecentThefts
+		
+			+ sort theft reports by occurred_at date. the most recent first
+
+			+ prep an array of objects, each containing an image, report title, description-txt for a report
+
+
+components/UnconfirmedSort.js (stateless)
+
+	+ display the unconfirmed reports component by updating CSS display.
+	
+	+ invoke GraphByZip to render graph of incident by zip code  
+	
+	+ display sample report descriptions using displayMostRecentUnconfirmed
+	
+	+ Main functions
+	
+		+ displayMostRecentUnconfirmed
+		
+			+ sort unconfirmed reports by occurred_at date. the most recent first
+
+			+ prep an array of objects, each containing an image, report title, description-txt for a report
+	
