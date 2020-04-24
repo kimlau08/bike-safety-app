@@ -39,7 +39,7 @@ class App extends Component {
 
       locationsByType: {},    //object of arrays, with geocodes, zip and type of reports
       reportsByType: {},      //objects of arrays of detailed reports
-      currentLocation: "Austin, TX", //city or zip
+      currentLocation: "Houston, TX", //city or zip
 
       //default query parms
       cityState:    "Houston, TX",
