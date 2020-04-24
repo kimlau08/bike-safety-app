@@ -116,22 +116,22 @@ export default class Filters extends Component {
 
                     <label className="city-input">
                         City
-                        <input className="text-input" type="text" name="city" value={this.state.cityState} placeholder="Enter City, State" onChange={this.handleCityStateChange} />
+                        <input className="input-field" type="text" name="city" value={this.state.cityState} placeholder="Enter City, State" onChange={this.handleCityStateChange} />
                     </label>
 
                     <label className="zip-input">
                         Zip
-                        <input className="text-input" type="text" name="zip" value={this.state.zip} placeholder="Enter Zip" onChange={this.handleZipChange} />
+                        <input className="input-field" type="text" name="zip" value={this.state.zip} placeholder="Enter Zip" onChange={this.handleZipChange} />
                     </label>
 
                     <label className="distance-input">
                         Proximity
-                        <input className="number-input" type="number" name="proximity_sq" value={this.state.proximity_sq} placeholder="Enter Distance" onChange={this.handleProximitySqChange} />
+                        <input className="input-field" type="number" name="proximity_sq" value={this.state.proximity_sq} placeholder="Enter Distance" onChange={this.handleProximitySqChange} />
                     </label>
 
                     <label className="keyword-input">
                         Keyword
-                        <input className="text-input" type="text" name="keyword" value={this.state.keyword} placeholder="Enter Text" onChange={this.handleKeywordChange} />
+                        <input className="input-field" type="text" name="keyword" value={this.state.keyword} placeholder="Enter Text" onChange={this.handleKeywordChange} />
                     </label>
 
                     <p  id="form-error-msg"></p>

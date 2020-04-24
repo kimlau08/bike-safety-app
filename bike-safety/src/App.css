@@ -200,7 +200,7 @@ a:active {
     text-align: center;
     margin-left: 60px;
   }
-  .text-input, .number-input {
+  .input-field {
     border: solid 1px lightgrey;
     border-radius: 5px;
     font-size: 16px;
