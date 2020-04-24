@@ -44,6 +44,7 @@ const displayMostRecentIncidents = (props) => {
             let descArray = description.trim().split(" ").slice(0, maxLength);
             description = descArray.join(' ');
 
+            //add report info as obj
             incidentObjList.push(  {bikeImg: genericImg,
                         reportTitle: incidentReports[i].title,
                         description: description });
@@ -57,6 +58,7 @@ const displayMostRecentIncidents = (props) => {
     return (
     <div className="bike-img-row">
 
+        {/* invoke ImageRow to display sample report descriptions */}
         <ImageRow imgObjList={JSON.stringify(incidentObjList)} />
 
     </div>
@@ -76,6 +78,7 @@ export default function ZipCodes (props) {
     return (
         <div id={toContainerId}>
 
+        {/* invoke GraphByZip to render graph of incident by zip code */}
         <GraphByZip  
             reportType={'ALL'} 
             graphTitle={'All reports by Zip codes'}

@@ -39,6 +39,7 @@ const displayMostRecentUnconfirmed = (props) => {
         let descArray = description.trim().split(" ").slice(0, maxLength);
         description = descArray.join(' ');
 
+        //add report info as obj
         unconfirmedObjList.push(  {bikeImg: genericImg,
                     reportTitle: unconfirmedReports[i].title,
                     description: description });
@@ -51,6 +52,7 @@ const displayMostRecentUnconfirmed = (props) => {
     return (
     <div className="bike-img-row">
 
+        {/* invoke ImageRow to display sample report descriptions */}
         <ImageRow imgObjList={JSON.stringify(unconfirmedObjList)} />
 
     </div>
@@ -70,6 +72,7 @@ export default function UnconfirmedSort (props) {
     return (
         <div id={toContainerId}>
 
+        {/* invoke GraphByZip to render graph of incident by zip code */}
         <GraphByZip  
             reportType={'unconfirmed'} 
             graphTitle={'Unconfirms by Zip codes'}
