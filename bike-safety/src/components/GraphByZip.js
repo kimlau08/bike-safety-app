@@ -4,7 +4,6 @@ import BarChart from './BarChart';
 
 const sortReportsByZip = (locationsByType, typeOfReport) => {
 
-
     let reportList = [];
     let reportType = "";
     if ( typeOfReport === "ALL" ) {
@@ -32,7 +31,8 @@ const sortReportsByZip = (locationsByType, typeOfReport) => {
     for (let i=0; i<reportList.length; i++) {
         if ( reportList[i].zip.toLowerCase() in reportsByZip )  {
 
-            reportsByZip[reportList[i].zip.toLowerCase()].push(reportList[i])   //save report
+            //save report to the array for incidents of the same type
+            reportsByZip[reportList[i].zip.toLowerCase()].push(reportList[i])   
 
         } else {
 
@@ -47,7 +47,7 @@ const sortReportsByZip = (locationsByType, typeOfReport) => {
         return [key.toLowerCase(), reportsByZip[key]];
     });
 
-    //sort descending order of number of reports
+    //sort descending order of number of reports for each type. longest array first.
     reportArray.sort (function (a, b) {
         return b[1].length - a[1].length;
     })
@@ -67,8 +67,8 @@ const graphIncidentZips = (reportType, graphTitle, getLocationsByType) => {
     let labels = []; //bar labels
     let incidentCnts = []; //bar lengths
     for (let i=0; i<reportArray.length; i++) {
-      labels.push(reportArray[i][0])
-      incidentCnts.push(reportArray[i][1].length);
+      labels.push(reportArray[i][0])    //save label
+      incidentCnts.push(reportArray[i][1].length);  //save data point
     }
 
     return (
