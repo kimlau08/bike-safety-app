@@ -6,7 +6,6 @@ html {
   background-size: cover;
 }
 
-
 ul {
   list-style-type:none;
 }
@@ -59,8 +58,6 @@ a:active {
       display: flex;
       flex-direction: column;
       justify-content: center;
-
-border: solid 1px lime;
     }
 
       .bike-img {
