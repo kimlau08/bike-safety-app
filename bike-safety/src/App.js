@@ -258,6 +258,8 @@ class App extends Component {
     }
 
     if ( queryPrefix === undefined ) {
+
+      //API for incident report details
       queryPrefix = "https://bikewise.org:443/api/v2/incidents?page=1";
     }
 
@@ -267,11 +269,9 @@ class App extends Component {
       queryURL += "&query=" + keyword;
     }
 
-    
     //substitutue space and comma in query (e.g. cityState, incidentType)
     queryURL=queryURL.replace(/ /g, "%20");
     queryURL=queryURL.replace(/,/g, "%2C");
-
 
     return queryURL;    
   }
@@ -321,6 +321,7 @@ class App extends Component {
   }
 
   customQuery( FilterObj ) {
+    //query using the filters specified by user on the Filter form
 
     this.getBikeWiseData(FilterObj);  //report data
 
