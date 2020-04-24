@@ -11,8 +11,8 @@ export default class Home extends Component {
             this.props.location.swapDisplayCallback("homeContainer", this.props);
         }
         return (
-            <React.Fragment>
-            </React.Fragment>
+            <div>
+            </div>
         )
 
     }
