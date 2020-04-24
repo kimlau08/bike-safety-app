@@ -231,6 +231,19 @@ components/BarChart (stateless)
 	+ set graph styling 
 	
 	+ invoke Bar from React chart to display graph
+	
+
+components/ImageRow (stateless)
+
+	+ main functions 
+	
+		+ render
+	
+			+ loop through image info object and display calling displayImgCard
+		
+		+ displayImgCard 
+		
+			+ return elements to display a set of title, image, and description.
 
 
 components/TheftSort.js (stateless)
