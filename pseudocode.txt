@@ -43,8 +43,20 @@ CSS sections
 
 =================================================================================================
 
+actions/index.js 
+	+ setFilter 
+		+ return action object of type 'SET_FILTER' and new filter
+
+reducers/index.js
+	+ reducer 
+		+ for case of action type of 'SET_FILTER', update filter in Redux store
 
 App.js (stateful)
+
+	+ Redux interaction
+	
+		+ call Redux connect to subscribe to filter update in Redux store
+
 
 	+ Main data structure
 		+ response, locations - has response data from Ajax
@@ -54,6 +66,9 @@ App.js (stateful)
 		+ reportsByType - object of arrays. Each object element is an array and corresponds to a type, (reports has details but only a limited number is available)
 
 	+ Main functions
+	
+		+ mapStateToProps 
+			+ return object containing filter to be accessed in props for Redux subscribers
 
 		+ componentDidMount
 			+ call getBikeWiseData to get report data using location endpoints
@@ -83,17 +98,12 @@ App.js (stateful)
 				+ embed a route in a Route tag. onl route for each of:
 						Home, Hazard, Theft, Unconfirmed, Zip, Filter components 
 						
-		
-		+ mapStateToProps 
-		
-			+ return state to be used by Redux in props, state include proximity to be displayed.
-	
+			+ use Redux store to retrieve city in filter object to display in p tag.
 	
 		+ Query functions
 			+ getBikeWiseData - get bike incident reports
 				+ wait for incident data (features)				
 				+ launch a chained API request for reverse geocode lookup using getZipData
-				+ dispatch update of proximity string for display
 
 			+ getZipData - reverse geocode lookup to get zip code
 				+ wait for zip code 
@@ -159,13 +169,26 @@ components/HazardSort.js (stateless)
 
 			+ prep an array of objects, each containing an image, report title, description-txt for a report
 			
-components/Filter.js (stateful)
+components/Filters.js (stateful)
+
+	+ Redux interaction
+	
+		+ call Redux connect to subscribe to filter n Redux store
+
 
 	+ main data structure
 	
 		+ fields in filter form containing updates received in event handlers
 
 	+ main functions
+	
+		+ rdxsetFilter
+
+			+ dispatch action object to a reducer to update filter 
+	
+		+ mapStateToProps 
+				
+			+ return state to be used by Redux in props, state include proximity to be displayed.
 
 		+ render 
 	
@@ -183,11 +206,14 @@ components/Filter.js (stateful)
 					
 			+ preventDefault
 			
+			+ dispatch update of filter object in Redux store by a reducer
+			
 			+ launch API request to query data using customQueryCallback function
 			
 			+ update redirectToHome to true to redirect Router to home component
 			
 			+ display the home component by updating CSS display.
+
 
 components/GraphByZip (stateless)
 

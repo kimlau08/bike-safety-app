@@ -27,7 +27,7 @@
 # Components
 ### Stateful components
 #### App.js - holds Ajax response data, etc
-#### Filters.js - holds filer input
+#### Filters.js - holds filter input
 # 
 ### Functional components
 #### HazardSort.js
@@ -39,5 +39,5 @@
 #### BarChart.js
 #
 # Technologies used
-### Redux+React to maintain city proximity of queried data (upper right of home screen)
-### React bar chart package will be used (react-chartjs-2  chart.js)
+### Redux+React to communicate filter change from Filters.js to App.js
+### React-chart and chart.js package used for bar graph
