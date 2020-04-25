@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
-export default class Filters extends Component {
+import { connect } from 'react-redux';
+
+import setFilter from '../actions/index';
+
+class Filters extends Component {
     constructor(props) {
         super(props);
 
@@ -23,6 +27,12 @@ export default class Filters extends Component {
         this.handleKeywordChange=this.handleKeywordChange.bind(this);
         this.handleQueryForm=this.handleQueryForm.bind(this);
 
+        this.rdxsetFilter=this.rdxsetFilter.bind(this);
+
+    }
+
+    rdxsetFilter( filter ) {
+        this.props.dispatch( setFilter(filter));
     }
 
     handleCityStateChange(event) {
@@ -78,6 +88,9 @@ export default class Filters extends Component {
             if (filterObj.zip !== "") {
                 filterObj.city = filterObj.zip;  //proximity filter takes either city or zip
             }
+
+            //dispatch update of filter object
+            this.rdxsetFilter(filterObj);
 
             //launch query
             this.props.location.customQueryCallback(filterObj);
@@ -145,3 +158,14 @@ export default class Filters extends Component {
 }
 
 
+
+function mapStateToProps(state) {
+    return {
+    
+      filter: state.filter
+  
+    };
+  }
+  
+  export default connect(mapStateToProps)(Filters);
+  

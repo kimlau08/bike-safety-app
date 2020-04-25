@@ -1,8 +1,9 @@
-const setProximity = (proximity) => {
-    return {                //return an object
-        type: "SET_PROXMITY",
-        newProximity: proximity,
+
+const setFilter = (filter) => {
+    return {
+        type: "SET_FILTER", 
+        newFilter: filter
     }
 }
 
-export default setProximity;
+export default setFilter;

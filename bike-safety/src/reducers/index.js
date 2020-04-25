@@ -3,14 +3,16 @@ const initialState = {
 
     proximity: "Houston, TX",  //current proximity to be displayed next to nav bar
 
+    filter: {}
+
  };
   
   function reducer(state = initialState, action) {
     switch(action.type) {
 
-      case 'SET_PROXMITY':
+      case 'SET_FILTER':
         return {
-            proximity: action.newProximity
+            filter: action.newFilter
         };
 
       default:

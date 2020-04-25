@@ -14,7 +14,6 @@ import ZipCodes from './components/ZipCodes';
 import Filters from './components/Filters';
 import ImageRow from './components/ImageRow';
 import config from './config/config';
-import setProximity from './actions/index.js'; 
 
 import { connect } from 'react-redux';
 
@@ -73,12 +72,6 @@ class App extends Component {
     this.getLocationsByType=this.getLocationsByType.bind(this);
     this.getReportsByType=this.getReportsByType.bind(this);
 
-    this.rdxSetProximity=this.rdxSetProximity.bind(this);
-
-  }
-
-  rdxSetProximity = (proximity) => {
-    this.props.dispatch(setProximity(proximity));
   }
 
   getLocationsByType() {
@@ -235,6 +228,9 @@ class App extends Component {
     //find 3 reports with media
     let theftImg=[];
     for (let i=0; i<theftReports.length; i++) {
+      if (theftReports[i].media === undefined) {   //skip reports without media
+        continue;
+      }
       if (theftReports[i].media.image_url !== null) {
 
         theftImg.push(  {bikeImg: theftReports[i].media.image_url,
@@ -445,13 +441,6 @@ class App extends Component {
       //chained request to Reverse Geocodes lookup API to get zip code from coordinates
       response.data.features.map(this.getZipData);
 
-      if (FilterObj !== undefined) {
-
-        //dispatch update action for proximity
-        this.rdxSetProximity( FilterObj.city );
-
-      }
-
     } catch (e) {
       console.error(e);
     }
@@ -516,7 +505,9 @@ class App extends Component {
 
               </ul>
 
-              <p className="city-proximity"> { this.props.proximity } </p>
+              {/* <p className="city-proximity"> { this.props.proximity } </p> */}
+              <p className="city-proximity"> { this.props.filter.city !== undefined ? this.props.filter.city 
+                                                                        :  this.state.cityState } </p>
 
             </nav>
 
@@ -565,7 +556,7 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
 
-    proximity: state.proximity,
+    filter: state.filter
 
   };
 }
