@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import {Route, Link, Switch, BrowserRouter as Router } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
+import {Route, Link, Routes, BrowserRouter as Router } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 
 import BarChart from './components/BarChart';
@@ -260,14 +260,14 @@ class App extends Component {
 
     //Default filter values
     let cityState=this.state.cityState;
-    let zip=this.state.zip;
+    // let zip=this.state.zip;
     let proximity_sq=this.state.proximity_sq;
     let keyword=this.state.keyword;
 
     //fill in custom filter values
     if ( FilterObj !== undefined ) {
       cityState=FilterObj.city;
-      zip=FilterObj.zip;
+      // zip=FilterObj.zip;
       proximity_sq=FilterObj.proximity_sq;
       keyword=FilterObj.keyword
     }
@@ -280,7 +280,7 @@ class App extends Component {
 
     let queryURL =  queryPrefix+"&proximity="+cityState+"&proximity_square="+proximity_sq;
 
-    if (keyword.length != 0) {
+    if (keyword.length !== 0) {
       queryURL += "&query=" + keyword;
     }
 
@@ -365,7 +365,7 @@ class App extends Component {
 
     //turn off display of "from container" in props. display "to container" instead
 
-    if (inputProps.location === undefined) { 
+    if (inputProps === undefined) { 
       //Came in from direct React component call instead of Router. No need to swap display
 
       this.setContainerOnDisplay(toContainerId); //just save the to container and return
@@ -429,7 +429,7 @@ class App extends Component {
     //get a large amount of reports and locations. chained to 2nd API to get zip code info
 
     const limit=50;
-    let queryPrefix="https://bikewise.org:443/api/v2/locations?"+`limit=${limit}`
+    let queryPrefix=`https://bikewise.org:443/api/v2/locations?limit=${limit}`
 
     let queryURL = this.createQueryURL( FilterObj, queryPrefix );
     try {
@@ -453,54 +453,27 @@ class App extends Component {
             <nav className="menu">
               <ul className="menu-bar">
                 <li>
-                  <Link to={{
-                      pathname: "/Home",
-                      swapDisplayCallback: this.swapContainerOnDisplay,
-                    }}>Home</Link>
+                  <Link to="/Home">Home</Link>
                 </li>
 
                 <li>
-                  <Link to={{
-                      pathname: "/HazardSort",
-                      getLocationsByTypeCallback: this.getLocationsByType,
-                      getReportsByTypeCallback : this.getReportsByType,
-                      swapDisplayCallback: this.swapContainerOnDisplay,
-                    }}>Hazard Reports</Link>
+                  <Link to="HazardSort">Hazard Reports</Link>
                 </li>
 
                 <li>
-                  <Link to={{
-                      pathname: "/TheftSort",
-                      getLocationsByTypeCallback: this.getLocationsByType,
-                      getReportsByTypeCallback : this.getReportsByType,
-                      swapDisplayCallback: this.swapContainerOnDisplay,
-                    }}>Theft Reports</Link>
+                  <Link to="/TheftSort">Theft Reports</Link>
                 </li>
 
                 <li>
-                  <Link to={{
-                      pathname: "/UnconfirmedSort",
-                      getLocationsByTypeCallback: this.getLocationsByType,
-                      getReportsByTypeCallback : this.getReportsByType,
-                      swapDisplayCallback: this.swapContainerOnDisplay,
-                    }}>Unconfirmed Reports</Link>
+                  <Link to="/UnconfirmedSort">Unconfirmed Reports</Link>
                 </li>
 
                 <li>
-                  <Link to={{
-                      pathname: "/ZipCodes",
-                      getLocationsByTypeCallback: this.getLocationsByType,
-                      getReportsByTypeCallback : this.getReportsByType,
-                      swapDisplayCallback: this.swapContainerOnDisplay,
-                    }}>All Reports</Link>
+                  <Link to="/ZipCodes">All Reports</Link>
                 </li>
 
                 <li>
-                  <Link to={{
-                      pathname: "/Filters",
-                      customQueryCallback: this.customQuery,
-                      swapDisplayCallback: this.swapContainerOnDisplay,
-                    }}>Filters</Link>
+                  <Link to="/Filters">Filters</Link>
                 </li>
 
               </ul>
@@ -513,20 +486,41 @@ class App extends Component {
 
             <h2 className="logo-line">Bike Safety</h2>
 
-            <Switch>
-              <Route path="/Home" component={Home} />
+            <Routes>
+              <Route path="/Home" element=<Home
+                    swapDisplayCallback = {this.swapContainerOnDisplay}
+              /> />
 
-              <Route path="/HazardSort" component={HazardSort} />
+              <Route path="/HazardSort" element=<HazardSort
+                  getLocationsByTypeCallback = {this.getLocationsByType}
+                  getReportsByTypeCallback = {this.getReportsByType}
+                  swapDisplayCallback = {this.swapContainerOnDisplay}
+              /> />
 
-              <Route path="/TheftSort" component={TheftSort} />
+              <Route path="/TheftSort" element=<TheftSort
+                  getLocationsByTypeCallback = {this.getLocationsByType}
+                  getReportsByTypeCallback = {this.getReportsByType}
+                  swapDisplayCallback = {this.swapContainerOnDisplay}
+              /> />
 
-              <Route path="/UnconfirmedSort" component={UnconfirmedSort} />
+              <Route path="/UnconfirmedSort" element=<UnconfirmedSort
+                    getLocationsByTypeCallback = {this.getLocationsByType}
+                    getReportsByTypeCallback = {this.getReportsByType}
+                    swapDisplayCallback = {this.swapContainerOnDisplay}
+              /> />
 
-              <Route path="/ZipCodes" component={ZipCodes} />
+              <Route path="/ZipCodes" element=<ZipCodes
+                    getLocationsByTypeCallback = {this.getLocationsByType}
+                    getReportsByTypeCallback = {this.getReportsByType}
+                    swapDisplayCallback = {this.swapContainerOnDisplay}
+              /> />
 
-              <Route path="/Filters" component={Filters} />
+              <Route path="/Filters" element=<Filters
+                    customQueryCallback = {this.customQuery}
+                    swapDisplayCallback = {this.swapContainerOnDisplay}
+              /> />
 
-            </Switch>
+            </Routes>
         </Router>
       </div>
     )
@@ -539,7 +533,7 @@ class App extends Component {
         {this.navBar()}
 
         <Router>
-          <Redirect to='/Home' />  
+          <Navigate to='/Home' />  
         </Router>
 
         <div id="home-container">

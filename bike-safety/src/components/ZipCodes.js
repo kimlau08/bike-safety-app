@@ -7,7 +7,7 @@ import genericImg from '../assets/zip.webp'
 
 const displayMostRecentIncidents = (props) => {
 
-    let reportsByType = props.location.getReportsByTypeCallback();
+    let reportsByType = props.getReportsByTypeCallback();
 
     if ( reportsByType === JSON.stringify({}) ) {
     return <div></div>      //no data to display
@@ -68,12 +68,12 @@ const displayMostRecentIncidents = (props) => {
 
 export default function ZipCodes (props) {
 
-    if (props.location.getLocationsByTypeCallback === undefined) {
+    if (props.getLocationsByTypeCallback === undefined) {
         return <div></div>    //no callback to get data
     }
 
     let toContainerId="zip-codes";       
-    props.location.swapDisplayCallback(toContainerId, props);
+    props.swapDisplayCallback(toContainerId, props);
 
     return (
         <div id={toContainerId}>
@@ -82,7 +82,7 @@ export default function ZipCodes (props) {
         <GraphByZip  
             reportType={'ALL'} 
             graphTitle={'All reports by Zip codes'}
-            getLocationsByTypeCallback={props.location.getLocationsByTypeCallback}
+            getLocationsByTypeCallback={props.getLocationsByTypeCallback}
             />
 
         

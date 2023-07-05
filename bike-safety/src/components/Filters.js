@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
@@ -68,7 +68,7 @@ class Filters extends Component {
         let filterObj={};
         for (let i=0; i<event.target.elements.length; i++) {
             let elem=event.target.elements[i];
-            if (elem.type !== "text" && elem.type != "number") {
+            if (elem.type !== "text" && elem.type !== "number") {
                 continue;
             }
 
@@ -93,33 +93,33 @@ class Filters extends Component {
             this.rdxsetFilter(filterObj);
 
             //launch query
-            this.props.location.customQueryCallback(filterObj);
+            this.props.customQueryCallback(filterObj);
 
             //Redirect back to root (App component)
             this.setState( { redirectToHome: true } ); 
             
             //swap back to the Home component display before redirect
-            this.props.location.swapDisplayCallback("home-container", this.props);
+            this.props.swapDisplayCallback("home-container", this.props);
         }
     }
 
     render() {
 
-        if (this.props.location.customQueryCallback === undefined) {
+        if (this.props.customQueryCallback === undefined) {
             return <div></div>    //no callback to make query
         }
 
         let toContainerId="filter-container";
         if (! this.state.redirectToHome) {  //do not overwrite display setup by filter form if redirecting away 
             
-            this.props.location.swapDisplayCallback(toContainerId, this.props);
+            this.props.swapDisplayCallback(toContainerId, this.props);
         }
 
         return (
             <div id={toContainerId}>
                 
                 {this.state.redirectToHome &&
-                        <Redirect to='/Home' />    //route back to root (App component) depending on state
+                        <Navigate to='/Home' />    //route back to root (App component) depending on state
                 }
 
 

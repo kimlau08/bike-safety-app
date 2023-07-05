@@ -7,7 +7,7 @@ import genericImg from '../assets/unconfirmed.webp'
 
 const displayMostRecentUnconfirmed = (props) => {
 
-    let reportsByType = props.location.getReportsByTypeCallback();
+    let reportsByType = props.getReportsByTypeCallback();
 
     if ( reportsByType === JSON.stringify({}) ) {
     return <div></div>      //no data to display
@@ -61,13 +61,13 @@ const displayMostRecentUnconfirmed = (props) => {
 
 export default function UnconfirmedSort (props) {
     
-    if (props.location.getLocationsByTypeCallback === undefined) {
+    if (props.getLocationsByTypeCallback === undefined) {
         return <div></div>    //no callback to get data
     }
 
     let toContainerId="unconfirmed-sort-container";
         
-    props.location.swapDisplayCallback(toContainerId, props);
+    props.swapDisplayCallback(toContainerId, props);
 
     return (
         <div id={toContainerId}>
@@ -76,7 +76,7 @@ export default function UnconfirmedSort (props) {
         <GraphByZip  
             reportType={'unconfirmed'} 
             graphTitle={'Unconfirms by Zip codes'}
-            getLocationsByTypeCallback={props.location.getLocationsByTypeCallback} />
+            getLocationsByTypeCallback={props.getLocationsByTypeCallback} />
 
         {displayMostRecentUnconfirmed(props)}
 

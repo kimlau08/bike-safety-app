@@ -7,7 +7,7 @@ import genericImg from '../assets/bike-trail.jpg'
 
 const displayMostRecentHazards = (props) => {
 
-    let reportsByType = props.location.getReportsByTypeCallback();
+    let reportsByType = props.getReportsByTypeCallback();
 
     if ( reportsByType === JSON.stringify({}) ) {
     return <div></div>      //no data to display
@@ -61,13 +61,13 @@ const displayMostRecentHazards = (props) => {
 
 export default function HazardSort (props)  {
 
-    if (props.location.getLocationsByTypeCallback === undefined) {
+    if (props.getLocationsByTypeCallback === undefined) {
         return <div></div>    //no callback to get data
     }
 
     let toContainerId="hazard-sort-container";
         
-    props.location.swapDisplayCallback(toContainerId, props);
+    props.swapDisplayCallback(toContainerId, props);
 
     return (
         <div id={toContainerId}>
@@ -75,7 +75,7 @@ export default function HazardSort (props)  {
         <GraphByZip  
             reportType={'hazard'} 
             graphTitle={'Hazards by Zip codes'}
-            getLocationsByTypeCallback={props.location.getLocationsByTypeCallback} />
+            getLocationsByTypeCallback={props.getLocationsByTypeCallback} />
 
         {/* invoke GraphByZip to render graph of incident by zip code */}
         {displayMostRecentHazards(props)}
