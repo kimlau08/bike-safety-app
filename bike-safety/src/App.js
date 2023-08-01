@@ -9,7 +9,7 @@ import BarChart from './components/BarChart';
 import Home from './components/Home';
 import HazardSort from './components/HazardSort';
 import TheftSort from './components/TheftSort';
-import UnconfirmedSort from './components/UnconfirmedSort'
+import UnconfirmedSort from './components/unconfirmedSort'
 import ZipCodes from './components/ZipCodes';
 import Filters from './components/Filters';
 import ImageRow from './components/ImageRow';
